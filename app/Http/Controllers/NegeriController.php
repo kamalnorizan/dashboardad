@@ -14,7 +14,7 @@ class NegeriController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

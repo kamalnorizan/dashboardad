@@ -36,12 +36,12 @@ class CreateOrganisasisTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('organisasis');
+        Schema::dropIfExists('organisasi');
     }
 }

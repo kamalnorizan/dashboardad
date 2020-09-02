@@ -28,6 +28,6 @@ class CreateNegerisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('negeris');
+        Schema::dropIfExists('negeri');
     }
 }
