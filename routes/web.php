@@ -21,4 +21,6 @@ Auth::routes(['register'=>false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('user/getOrg/{id}', 'UserController@getOrg');
+Route::get('user/getOrg/{id}/{negeri}', 'UserController@getOrgNegeri');
 Route::resource('user', 'UserController');

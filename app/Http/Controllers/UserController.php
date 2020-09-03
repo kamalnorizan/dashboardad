@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Jawatan;
+use App\Organisasi;
+use App\Org_type;
+use App\Negeri;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -25,14 +28,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        $titles = Jawatan::all();
-        $title = Jawatan::first();
-        // foreach ($titles as $key => $title) {
-        //     echo $title->name."<br>";
-        // }
-
-        // dd($jawatan);
-        // return view('users.create');
+        $titleOpts = Jawatan::pluck('name','id');
+        // $orgOpts = Organisasi::pluck('name','id');
+        $orgTypeOpts = Org_type::pluck('name','id');
+        $stateOpts = Negeri::pluck('name','id');
+        $stateOpts[0] = 'Sila pilih negeri';
+        return view('users.create',compact('titleOpts','orgTypeOpts','stateOpts'));
     }
 
     /**
@@ -90,4 +91,18 @@ class UserController extends Controller
     {
         //
     }
+
+    public function getOrg($id)
+    {
+        $organizations = Organisasi::where('org_type_id',$id)->get();
+        return $organizations;
+    }
+
+    public function getOrgNegeri($id, $negeri)
+    {
+        $organizations = Organisasi::where('org_type_id',$id)->where('negeri_id',$negeri)->get();
+        return $organizations;
+    }
+
+
 }
