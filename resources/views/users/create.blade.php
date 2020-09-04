@@ -17,7 +17,7 @@
                     <h3>Borang Pendaftaran Pengguna</h3>
                 </div>
                 <div class="ibox-content">
-                    {!! Form::open(['method' => 'POST', 'url' => 'users']) !!}
+                    {!! Form::open(['method' => 'POST', 'route' => 'user.store']) !!}
 
                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                         {!! Form::label('name', 'Nama') !!}
@@ -87,6 +87,7 @@
                     </div>
 
                     {!! Form::close() !!}
+                    <br><br>
                 </div>
             </div>
         </div>

@@ -8,6 +8,8 @@ use App\Organisasi;
 use App\Org_type;
 use App\Negeri;
 use Illuminate\Http\Request;
+use Str;
+use Mail;
 
 class UserController extends Controller
 {
@@ -44,7 +46,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name'          => 'required',
+            'ic'            => 'required|max:12|unique:users',
+            'phoneNum'      => 'required',
+            'email'         => 'required|email|unique:users',
+            'jawatan_id'    => 'required',
+            'organisasi_id' => 'required',
+        ]);
+
+        $password = Str::random(8);
+        $user = new User();
+        $user->name = $request->name;
+        $user->ic = $request->ic;
+        $user->phoneNum = $request->phoneNum;
+        $user->email = $request->email;
+        $user->jawatan_id = $request->jawatan_id;
+        $user->organisasi_id = $request->organisasi_id;
+        $user->password = bcrypt($password);
+        $user->save();
+
+        Mail::send('users.mail', compact('user','password'), function ($message) {
+            $message->from('john@johndoe.com', 'John Doe');
+            $message->to('john@johndoe.com', 'John Doe');
+            $message->subject('Pendaftaran sistem DashboardAd');
+            $message->priority(3);
+        });
+
+        return back();
+
     }
 
     /**
