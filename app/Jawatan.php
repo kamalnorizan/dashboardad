@@ -16,4 +16,9 @@ class Jawatan extends Model
 
     protected $guarded = ['id'];
 
+    public function users()
+    {
+        return $this->hasMany('App\User', 'jawatan_id', 'id');
+    }
+
 }

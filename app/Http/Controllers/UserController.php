@@ -20,7 +20,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        $users = User::with('organisasi','jawatan')->whereHas('jawatan', function($query){
+            $query->where('name','=','Eksekutif');
+        })->paginate(20);
+
+        // $jawatan = Jawatan::where('name','Eksekutif')->first();
+        // dd($users);
+        // dd($users->first()->jawatan->users->first()->organisasi);
+        // return response()->json($jawatan->users, 200);
+        return view('users.index',compact('users'));
     }
 
     /**
@@ -74,7 +82,7 @@ class UserController extends Controller
             $message->priority(3);
         });
 
-        return back();
+        return redirect('/user');
 
     }
 

@@ -16,5 +16,8 @@ class Org_type extends Model
 
     protected $guarded = ['id'];
 
-
+    public function organizations()
+    {
+        return $this->hasMany('App\Organisasi', 'org_type_id', 'id');
+    }
 }

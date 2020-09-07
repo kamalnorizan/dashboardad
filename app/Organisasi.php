@@ -16,4 +16,19 @@ class Organisasi extends Model
 
     protected $guarded = ['id'];
 
+    public function negeri()
+    {
+        return $this->belongsTo('App\Negeri', 'negeri_id', 'id');
+    }
+
+    public function org_type()
+    {
+        return $this->belongsTo('App\Org_type', 'org_type_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany('App\User', 'organisasi_id', 'id');
+    }
+
 }

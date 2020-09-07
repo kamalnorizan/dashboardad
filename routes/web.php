@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+DB::listen(function ($event) {
+    dump($event->sql);
+});
+
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -23,4 +27,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('user/getOrg/{id}', 'UserController@getOrg');
 Route::get('user/getOrg/{id}/{negeri}', 'UserController@getOrgNegeri');
-Route::resource('user', 'UserController');
+Route::resource('user', 'UserController')->middleware('auth');

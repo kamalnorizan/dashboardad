@@ -16,4 +16,9 @@ class Negeri extends Model
 
     protected $guarded = ['id'];
 
+    public function organizations()
+    {
+        return $this->hasMany('App\Organisasi', 'negeri_id', 'id');
+    }
+
 }
