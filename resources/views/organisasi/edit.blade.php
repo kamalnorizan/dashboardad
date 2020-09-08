@@ -14,18 +14,17 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h3>Borang Daftar Organisasi</h3>
+                    <h3>Borang Kemaskini Maklumat Organisasi</h3>
                 </div>
                 <div class="ibox-content">
-                    {!! Form::open(['method' => 'POST', 'route' => 'organisasi.store']) !!}
+                    {!! Form::model($organisasi, ['route' => ['organisasi.update', $organisasi->id], 'method' => 'PUT']) !!}
 
-                    @include('organisasi._form')
+                        @include('organisasi._form')
 
-                        <div class="pull-right">
-                            {!! Form::reset("Reset", ['class' => 'btn btn-warning']) !!}
-                            {!! Form::submit("Daftar", ['class' => 'btn btn-primary']) !!}
+                        <div class="btn-group pull-right">
+                            {!! Form::submit("Kemaskini", ['class' => 'btn btn-success']) !!}
                         </div>
-                        <br><br>
+
                     {!! Form::close() !!}
                 </div>
             </div>
