@@ -32,3 +32,15 @@ Route::resource('user', 'UserController')->middleware('auth');
 
 // Organisasi
 Route::resource('organisasi', 'OrganisasiController')->middleware('auth');
+
+//Permission
+Route::get('/permission', 'PermissionController@index')->name('permission.index');
+Route::post('/permission/storepermission', 'PermissionController@storepermission')->name('permission.storepermission');
+Route::post('/permission/storerole', 'PermissionController@storerole')->name('permission.storerole');
+Route::get('/permission/assignpermissiontorole/{role}/{permission}', 'PermissionController@assignpermissiontorole')->name('permission.assignpermissiontorole');
+Route::get('/permission/revokepermissionfromrole/{role}/{permission}', 'PermissionController@revokepermissionfromrole')->name('permission.revokepermissionfromrole');
+Route::post('/permission/beripermissiontorole', 'PermissionController@beripermissiontorole')->name('permission.beripermissiontorole');
+Route::get('/permission/checkpermission/{role}', 'PermissionController@checkpermission')->name('permission.checkpermission');
+
+
+

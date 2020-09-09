@@ -19,7 +19,8 @@ class CreateMaklumbalasTable extends Migration
             $table->bigInteger('auditipenemuan_id')->unsigned();
             $table->bigInteger('auditi')->unsigned();
             $table->bigInteger('progress_id')->unsigned();
-            $table->string('varchar', 250);
+            $table->string('maklumbalas', 250);
+            $table->string('ulasan', 250);
             $table->foreign('auditipenemuan_id')->references('id')->on('auditipenemuan')->onDelete('cascade');
             $table->foreign('auditi')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('jawatankuasa_id')->references('id')->on('jawatankuasa')->onDelete('cascade');

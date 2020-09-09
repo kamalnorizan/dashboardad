@@ -23,9 +23,14 @@
             <li>
                 <a href="/home"><i class="fa fa-home"></i> <span class="nav-label">Utama</span></a>
             </li>
-
             <li>
                 <a href="/user"><i class="fa fa-users"></i> <span class="nav-label">Pengguna</span></a>
+            </li>
+            <li>
+                <a href="{{route('permission.index')}}"><i class="fa fa-lock"></i> <span class="nav-label">Role & Permission</span></a>
+            </li>
+            <li>
+                <a href="/organisasi"><i class="fa fa-building"></i> <span class="nav-label">Organisasi</span></a>
             </li>
 
         </ul>
