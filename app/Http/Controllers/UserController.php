@@ -10,7 +10,8 @@ use App\Negeri;
 use Illuminate\Http\Request;
 use Str;
 use Mail;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 class UserController extends Controller
 {
     /**
@@ -24,11 +25,9 @@ class UserController extends Controller
             $query->where('name','=','Eksekutif');
         })->paginate(20);
 
-        // $jawatan = Jawatan::where('name','Eksekutif')->first();
-        // dd($users);
-        // dd($users->first()->jawatan->users->first()->organisasi);
-        // return response()->json($jawatan->users, 200);
-        return view('users.index',compact('users'));
+        $role_opts = Role::pluck('name','id');
+
+        return view('users.index',compact('users','role_opts'));
     }
 
     /**

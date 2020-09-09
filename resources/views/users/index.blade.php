@@ -3,7 +3,15 @@
 @section('title','Pengurusan Pengguna')
 
 @section('head')
-<link href="{{ asset('res/css/plugins/select2/select2.min.css') }}" rel="stylesheet">
+{{-- <link href="{{ asset('res/css/plugins/select2/select2.min.css') }}" rel="stylesheet"> --}}
+<link href="{{ asset('res/css/plugins/chosen/chosen.css') }}"
+rel="stylesheet">
+
+<style>
+    .chosen-container {
+        width: 100% !important;
+    }
+</style>
 @endsection
 
 @section('action')
@@ -50,8 +58,7 @@
                                 Admin
                             </td>
                             <td>
-
-<a class="btn btn-primary" data-toggle="modal"  href='#assignrole-modal'>Trigger modal</a>
+                                <a class="btn btn-primary btn-sm" data-toggle="modal"  href='#assignrole-modal' data-role_id="{{$user->id}}">Assign Role</a>
                             </td>
                         </tr>
                         @endforeach
@@ -63,7 +70,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="assignrole-modal">
+<div class="modal fade" role="dialog" id="assignrole-modal"  aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -73,6 +80,8 @@
             {!! Form::open(['method' => 'POST', 'url' => 'user.assignrole']) !!}
             <div class="modal-body">
                 {!! Form::hidden('user_id', 'value', ['id'=>'user_id_assignrole']) !!}
+
+                {!! Form::select('role',$role_opts,0, ['id' => 'roledrop', 'class' => 'form-control', 'required' => 'required', 'multiple']) !!}
                 
             </div>
             <div class="modal-footer">
@@ -87,7 +96,11 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('res/js/plugins/select2/select2.full.min.js') }}"></script>
-
+<script src="{{ asset('res/js/plugins/chosen/chosen.jquery.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("#roledrop").chosen();
+    });
+</script>
 @endsection
 
