@@ -78,4 +78,11 @@ class PermissionController extends Controller
         $permissions = $role->permissions;
         return $permissions;
     }
+
+    public function resetrolepermissions(Role $role)
+    {
+        $role->syncPermissions([]);
+        flash('Role Permissions telah berjaya direset.')->success()->important();
+        return back();
+    }
 }

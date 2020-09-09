@@ -3,6 +3,7 @@
 @section('title','Pengurusan Pengguna')
 
 @section('head')
+<link href="{{ asset('res/css/plugins/select2/select2.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('action')
@@ -49,7 +50,8 @@
                                 Admin
                             </td>
                             <td>
-                                Tindakan
+
+<a class="btn btn-primary" data-toggle="modal"  href='#assignrole-modal'>Trigger modal</a>
                             </td>
                         </tr>
                         @endforeach
@@ -60,8 +62,32 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="assignrole-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Peranan</h4>
+            </div>
+            {!! Form::open(['method' => 'POST', 'url' => 'user.assignrole']) !!}
+            <div class="modal-body">
+                {!! Form::hidden('user_id', 'value', ['id'=>'user_id_assignrole']) !!}
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('script')
+<script src="{{ asset('res/js/plugins/select2/select2.full.min.js') }}"></script>
+
 @endsection
 

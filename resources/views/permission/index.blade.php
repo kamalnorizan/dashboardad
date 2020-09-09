@@ -60,7 +60,7 @@
                         @foreach ($roles as $role)
                         <tr>
                             <td>
-                                {{$role->name}}
+                                {{$role->name}} <br>
                             </td>
                             <td>
                                 @foreach ($role->permissions as $permission)
@@ -76,6 +76,7 @@
                                 <button tton type="button" class="btn btn-info btn-sm" data-toggle="modal" data-role_name="{{$role->name}}" data-role_id="{{$role->id}}" data-target="#beripermission_modal">
                                     Beri Permission
                                 </button>
+                                <a class="btn btn-danger btn-sm" href="{{route('permission.resetrolepermissions',['role'=>$role->id])}}" onclick="return confirm('Adakah anda pasti?')">Reset Permission</a>
                             </td>
                         </tr>
                         @endforeach
