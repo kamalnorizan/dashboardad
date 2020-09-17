@@ -47,6 +47,7 @@ Route::post('/permission/assignrole', 'PermissionController@assignrole')->name('
 
 // laporan
 Route::get('/laporan/getSubkategori/{kategori}', 'LaporanController@getSubkategori')->name('laporan.getSubkategori');
+Route::get('/laporan/getJawatankuasa', 'LaporanController@getJawatankuasa')->name('laporan.getJawatankuasa');
 Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
 Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
 Route::post('/laporan', 'LaporanController@store')->name('laporan.store');

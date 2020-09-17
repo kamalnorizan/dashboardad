@@ -20,4 +20,9 @@ class Kategoriaudit extends Model
     {
         return $this->hasMany('App\Kategoriaudit', 'subkategori', 'id');
     }
+
+    public function parentkategori()
+    {
+        return $this->belongsTo('App\Kategoriaudit', 'subkategori', 'id');
+    }
 }

@@ -46,15 +46,17 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6" >
-        <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-            {!! Form::label('user_id', 'Jawatankuasa Audit') !!}
-            {!! Form::text('user_id', null, ['class' => 'form-control', 'required' => 'required']) !!}
-            <small class="text-danger">{{ $errors->first('user_id') }}</small>
+    <div class="col-md-12" >
+        <div class="form-group{{ $errors->has('jawatankuasa[]') ? ' has-error' : '' }}">
+            {!! Form::label('jawatankuasa[]', 'Ahli Jawatankuasa') !!} <button type="button" id="tambahAhli" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>
+            {!! Form::select('jawatankuasa[]', $jawatankuasa_opts, null, ['id' => 'jawatankuasa[]', 'class' => 'form-control', 'required' => 'required']) !!}
+            <small class="text-danger">{{ $errors->first('jawatankuasa[]') }}</small>
         </div>
     </div>
 </div>
+<div id="jawatankuasa">
 
+</div>
 <div class="form-group{{ $errors->has('tajuk_attachment') ? ' has-error' : '' }}">
     {!! Form::label('tajuk_attachment', 'Tajuk Laporan Attachment') !!}
     {!! Form::text('tajuk_attachment', null, ['class' => 'form-control', 'required' => 'required']) !!}

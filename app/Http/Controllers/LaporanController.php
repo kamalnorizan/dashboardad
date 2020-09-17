@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Organisasi;
 use App\Laporan;
+use App\User;
 use App\Kategoriaudit;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,8 @@ class LaporanController extends Controller
         $kategori_opts = Kategoriaudit::whereNull('subkategori')->pluck('name','id');
         $kategori_opts[0] = 'Sila Pilih Kategori';
         $org_Opts = Organisasi::pluck('name','id');
-        return view('laporan.create',compact('org_Opts','kategori_opts'));
+        $jawatankuasa_opts = User::role(['auditor','kcad'])->pluck('name','id');
+        return view('laporan.create',compact('org_Opts','kategori_opts','jawatankuasa_opts'));
     }
 
     /**
@@ -93,5 +95,11 @@ class LaporanController extends Controller
         $subkategori = Kategoriaudit::where('subkategori',$kategori->id)->get();
 
         return $subkategori;
+    }
+
+    public function getJawatankuasa()
+    {
+        $jawatankuasa = User::role(['auditor','kcad'])->get();
+        return $jawatankuasa;
     }
 }
