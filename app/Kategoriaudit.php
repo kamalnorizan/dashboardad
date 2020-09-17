@@ -16,5 +16,8 @@ class Kategoriaudit extends Model
 
     protected $guarded = ['id'];
 
-    
+    public function subkategori()
+    {
+        return $this->hasMany('App\Kategoriaudit', 'subkategori', 'id');
+    }
 }

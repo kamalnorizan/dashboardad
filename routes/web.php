@@ -44,3 +44,10 @@ Route::get('/permission/checkpermission/{role}', 'PermissionController@checkperm
 Route::get('/permission/resetrolepermissions/{role}', 'PermissionController@resetrolepermissions')->name('permission.resetrolepermissions');
 Route::post('/permission/assignrole', 'PermissionController@assignrole')->name('user.assignrole');
 
+
+// laporan
+Route::get('/laporan/getSubkategori/{kategori}', 'LaporanController@getSubkategori')->name('laporan.getSubkategori');
+Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
+Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
+Route::post('/laporan', 'LaporanController@store')->name('laporan.store');
+

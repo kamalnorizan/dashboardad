@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Organisasi;
 use App\Laporan;
+use App\Kategoriaudit;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -14,7 +16,7 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        //
+        return view('laporan.index');
     }
 
     /**
@@ -24,7 +26,10 @@ class LaporanController extends Controller
      */
     public function create()
     {
-        //
+        $kategori_opts = Kategoriaudit::whereNull('subkategori')->pluck('name','id');
+        $kategori_opts[0] = 'Sila Pilih Kategori';
+        $org_Opts = Organisasi::pluck('name','id');
+        return view('laporan.create',compact('org_Opts','kategori_opts'));
     }
 
     /**
@@ -81,5 +86,12 @@ class LaporanController extends Controller
     public function destroy(Laporan $laporan)
     {
         //
+    }
+
+    public function getSubkategori(Kategoriaudit $kategori)
+    {
+        $subkategori = Kategoriaudit::where('subkategori',$kategori->id)->get();
+
+        return $subkategori;
     }
 }
