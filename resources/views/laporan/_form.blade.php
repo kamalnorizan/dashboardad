@@ -57,9 +57,22 @@
 <div id="jawatankuasa">
 
 </div>
-<div class="form-group{{ $errors->has('tajuk_attachment') ? ' has-error' : '' }}">
-    {!! Form::label('tajuk_attachment', 'Tajuk Laporan Attachment') !!}
-    {!! Form::text('tajuk_attachment', null, ['class' => 'form-control', 'required' => 'required']) !!}
-    <small class="text-danger">{{ $errors->first('tajuk_attachment') }}</small>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('tajuk_attachment') ? ' has-error' : '' }}">
+            {!! Form::label('tajuk_attachment', 'Tajuk Laporan Attachment') !!}
+            {!! Form::text('tajuk_attachment', null, ['class' => 'form-control', 'required' => 'required']) !!}
+            <small class="text-danger">{{ $errors->first('tajuk_attachment') }}</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('attachment') ? ' has-error' : '' }}">
+            {!! Form::label('attachment', 'File') !!}
+            {!! Form::file('attachment', ['required' => 'required']) !!}
+            <p class="help-bootock"><i>Sila muat naik pdf laporan asal</i></p>
+            <small class="text-danger">{{ $errors->first('attachment') }}</small>
+        </div>
+    </div>
 </div>
+
 
