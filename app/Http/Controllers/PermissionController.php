@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+use App\User;
 
 class PermissionController extends Controller
 {
@@ -83,6 +84,15 @@ class PermissionController extends Controller
     {
         $role->syncPermissions([]);
         flash('Role Permissions telah berjaya direset.')->success()->important();
+        return back();
+    }
+
+    public function assignrole(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $user->assignRole($request->role);
+
+        flash('User roles telah berjaya ditetapkan.')->success()->important();
         return back();
     }
 }

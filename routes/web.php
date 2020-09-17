@@ -28,7 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // User
 Route::get('user/getOrg/{id}', 'UserController@getOrg');
 Route::get('user/getOrg/{id}/{negeri}', 'UserController@getOrgNegeri');
-Route::resource('user', 'UserController')->middleware('auth');
+Route::resource('user', 'UserController')->middleware(['auth','permission: show user|edit user']);
 
 // Organisasi
 Route::resource('organisasi', 'OrganisasiController')->middleware('auth');
@@ -42,4 +42,5 @@ Route::get('/permission/revokepermissionfromrole/{role}/{permission}', 'Permissi
 Route::post('/permission/beripermissiontorole', 'PermissionController@beripermissiontorole')->name('permission.beripermissiontorole');
 Route::get('/permission/checkpermission/{role}', 'PermissionController@checkpermission')->name('permission.checkpermission');
 Route::get('/permission/resetrolepermissions/{role}', 'PermissionController@resetrolepermissions')->name('permission.resetrolepermissions');
+Route::post('/permission/assignrole', 'PermissionController@assignrole')->name('user.assignrole');
 

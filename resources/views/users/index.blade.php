@@ -55,10 +55,12 @@ rel="stylesheet">
                                 {{$user->organisasi->nickname}}
                             </td>
                             <td>
-                                Admin
+                                @foreach ($user->roles as $role)
+                            <a href="#" onclick="return confirm('Adakah anda pasti')" class="badge badge-warning">{{$role->name}}</a>
+                                @endforeach
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" data-toggle="modal"  href='#assignrole-modal' data-role_id="{{$user->id}}">Assign Role</a>
+                                <a class="btn btn-primary btn-sm" data-toggle="modal"  href='#assignrole-modal' data-user_id="{{$user->id}}">Assign Role</a>
                             </td>
                         </tr>
                         @endforeach
@@ -77,12 +79,12 @@ rel="stylesheet">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Peranan</h4>
             </div>
-            {!! Form::open(['method' => 'POST', 'url' => 'user.assignrole']) !!}
+            {!! Form::open(['method' => 'POST', 'route' => 'user.assignrole']) !!}
             <div class="modal-body">
                 {!! Form::hidden('user_id', 'value', ['id'=>'user_id_assignrole']) !!}
 
-                {!! Form::select('role',$role_opts,0, ['id' => 'roledrop', 'class' => 'form-control', 'required' => 'required', 'multiple']) !!}
-                
+                {!! Form::select('role[]',$role_opts,0, ['id' => 'roledrop', 'class' => 'form-control', 'required' => 'required', 'multiple']) !!}
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -93,6 +95,8 @@ rel="stylesheet">
     </div>
 </div>
 
+
+
 @endsection
 
 @section('script')
@@ -100,6 +104,13 @@ rel="stylesheet">
 <script>
     $(document).ready(function () {
         $("#roledrop").chosen();
+
+        $('#assignrole-modal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var user_id = button.data('user_id');
+
+                $('#user_id_assignrole').val(user_id);
+        });
     });
 </script>
 @endsection
