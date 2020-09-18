@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Organisasi;
 use App\Laporan;
+use App\Jawatankuasa;
 use App\User;
 use App\Kategoriaudit;
+use App\Attachment;
+use Carbon\Carbon;
+// use Input;
+use Auth;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -17,7 +22,43 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('laporan.index');
+        $reports = Laporan::where('auditor',Auth::user()->id)->get();
+        return view('laporan.index',compact('reports'));
+    }
+
+    public function ajaxlaporan()
+    {
+        $reports = Laporan::where('auditor',Auth::user()->id)->get();
+        $i=0;
+        return datatables()->of($reports)
+            ->addColumn('no_bil', function($report){
+                $no_bil = $report->id;
+                return $no_bil;
+            })
+            ->addColumn('tajuk', function($report){
+                $tajuk = $report->tajuk;
+                return $tajuk;
+            })
+            ->addColumn('tarikh', function($report){
+
+                $tarikh =  Carbon::parse($report->tarikh)->format('d-m-Y');
+                return $tarikh;
+            })
+            ->addColumn('kategori', function($report){
+
+                $kategori =  $report->kategoriaudit->name;
+                return $kategori;
+            })
+            ->addColumn('status', function($report){
+
+                return 'test';
+            })
+            ->addColumn('tindakan', function($report){
+                $buttons = '<a class="btn btn-xs btn-primary" href="'.route('penemuan.index',['laporan'=>$report->id]).'"><i class="fa fa-edit"></i></a>';
+                return $buttons;
+            })
+            ->rawColumns(['no_bil','tajuk','tarikh','kategori','status','tindakan'])
+            ->make(true);
     }
 
     /**
@@ -42,7 +83,46 @@ class LaporanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $kcad = User::role('kcad')->first();
+        $laporan = new Laporan();
+        $laporan->tajuk = $request->tajuk_laporan;
+        $laporan->tarikh = $request->tarikh_laporan;
+        $laporan->tahun = $request->tahun;
+        $laporan->auditor = Auth::user()->id;
+        $laporan->kcad = $kcad->id;
+        $laporan->organisasi_id = $request->organisasi_id;
+        if(isset($request->subkategori)){
+            $laporan->kategori_id = $request->subkategori;
+        }else{
+            $laporan->kategori_id = $request->kategori;
+        }
+        $laporan->save();
+
+        foreach ($request->jawatankuasa as $key => $value) {
+            $jawatankuasa  = new Jawatankuasa();
+            $jawatankuasa->laporan_id = $laporan->id;
+            $jawatankuasa->user_id = $value;
+            if($value==$kcad->id ){
+                $jawatankuasa->posisi = 'kcad';
+            }else{
+                $jawatankuasa->posisi = 'auditor';
+            }
+            $jawatankuasa->save();
+        }
+
+        if($file = $request->file('attachment')){
+            $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileName = time().'_'.$file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads', $fileName, 'public');
+            $attachment = new Attachment;
+            $attachment->title = $name;
+            $attachment->url = $fileName;
+            $laporan->attachment()->save($attachment);
+        }
+
+        return redirect()->route('penemuan.index',['laporan'=>$laporan->id]);
+
     }
 
     /**

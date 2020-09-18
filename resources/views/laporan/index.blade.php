@@ -3,6 +3,7 @@
 @section('title','Laporan Penemuan')
 
 @section('head')
+<link href="{{ asset('res/css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('action')
@@ -19,24 +20,17 @@
                     <h3>Senarai Laporan Penemuan </h3>
                 </div>
                 <div class="ibox-content">
-                    <table class="table">
-                        <tr>
-                            <td>Bil.</td>
-                            <td>Tajuk Laporan</td>
-                            <td>Tarikh Laporan</td>
-                            <td>Kategori Audit </td>
-                            <td>Status</td>
-                            <td>Tindakan</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
+                    <table class="table" id="laporanajax">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Tajuk Laporan</th>
+                                <th>Tarikh Laporan</th>
+                                <th>Kategori Audit </th>
+                                <th>Status</th>
+                                <th>Tindakan</th>
+                            </tr>
+                        </thead>
                     </table>
                     <br>
 
@@ -48,6 +42,50 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+<script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#laporanajax').DataTable({
+            processing: true,
+            responsive: true,
+            serverSide: true,
+            "contentType": "application/json;charset=utf-8",
+            ajax:{
+                url: "/laporan/ajaxlaporan",
+            },
+            columns:[
+                {
+                    data: 'no_bil',
+                    name: 'no_bil'
+                },
+                {
+                    data: 'tajuk',
+                    name: 'tajuk'
+                },
+                {
+                    data: 'tarikh',
+                    name: 'tarikh'
+                },
+                {
+                    data: 'kategori',
+                    name: 'kategori'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    searchable: false,
+                    data: 'tindakan',
+                    name: 'tindakan'
+                }
+            ]
+        });
+    });
+</script>
 @endsection
 
 

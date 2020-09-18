@@ -48,7 +48,18 @@ Route::post('/permission/assignrole', 'PermissionController@assignrole')->name('
 // laporan
 Route::get('/laporan/getSubkategori/{kategori}', 'LaporanController@getSubkategori')->name('laporan.getSubkategori');
 Route::get('/laporan/getJawatankuasa', 'LaporanController@getJawatankuasa')->name('laporan.getJawatankuasa');
+Route::get('/laporan/ajaxlaporan', 'LaporanController@ajaxlaporan')->name('laporan.ajaxlaporan');
 Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
 Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
 Route::post('/laporan', 'LaporanController@store')->name('laporan.store');
 
+
+//penemuan
+Route::get('/penemuan/index/{laporan}', 'PenemuanController@index')->name('penemuan.index');
+Route::get('/penemuan/ajaxpenemuan/{laporan}', 'PenemuanController@ajaxpenemuan')->name('penemuan.ajaxpenemuan');
+Route::post('/penemuan', 'PenemuanController@store')->name('penemuan.store');
+Route::get('/penemuan/getorganisasi', 'PenemuanController@getorganisasi')->name('penemuan.getorganisasi');
+Route::get('/penemuan/{penemuan}/edit', 'PenemuanController@edit')->name('penemuan.edit');
+Route::put('/penemuan/{penemuan}', 'PenemuanController@update')->name('penemuan.update');
+Route::get('/penemuan/{penemuan}', 'PenemuanController@show')->name('penemuan.show');
+Route::get('/penemuan/{penemuan}/delete', 'PenemuanController@destroy')->name('penemuan.destroy');

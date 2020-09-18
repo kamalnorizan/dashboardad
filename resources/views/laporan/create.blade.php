@@ -17,7 +17,7 @@
                     <h3>Borang Tambah Laporan</h3>
                 </div>
                 <div class="ibox-content">
-                    {!! Form::open(['method' => 'POST', 'route' => 'laporan.store']) !!}
+                    {!! Form::open(['method' => 'POST', 'route' => 'laporan.store', 'enctype'=>'multipart/form-data']) !!}
 
                     @include('laporan._form')
 
@@ -65,7 +65,7 @@
     });
 
     $('#tambahAhli').click(function (e) {
-        var options;
+        var options='<option>Sila Pilih Ahli</option>';
         $.ajax({
             type: "get",
             url: "/laporan/getJawatankuasa",

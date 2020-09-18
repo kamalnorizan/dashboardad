@@ -49,7 +49,7 @@
     <div class="col-md-12" >
         <div class="form-group{{ $errors->has('jawatankuasa[]') ? ' has-error' : '' }}">
             {!! Form::label('jawatankuasa[]', 'Ahli Jawatankuasa') !!} <button type="button" id="tambahAhli" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Tambah</button>
-            {!! Form::select('jawatankuasa[]', $jawatankuasa_opts, null, ['id' => 'jawatankuasa[]', 'class' => 'form-control', 'required' => 'required']) !!}
+            {!! Form::select('jawatankuasa[]', $jawatankuasa_opts, Auth::user()->id, ['id' => 'jawatankuasa[]', 'class' => 'form-control', 'required' => 'required']) !!}
             <small class="text-danger">{{ $errors->first('jawatankuasa[]') }}</small>
         </div>
     </div>
@@ -59,15 +59,8 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        <div class="form-group{{ $errors->has('tajuk_attachment') ? ' has-error' : '' }}">
-            {!! Form::label('tajuk_attachment', 'Tajuk Laporan Attachment') !!}
-            {!! Form::text('tajuk_attachment', null, ['class' => 'form-control', 'required' => 'required']) !!}
-            <small class="text-danger">{{ $errors->first('tajuk_attachment') }}</small>
-        </div>
-    </div>
-    <div class="col-md-6">
         <div class="form-group{{ $errors->has('attachment') ? ' has-error' : '' }}">
-            {!! Form::label('attachment', 'File') !!}
+            {!! Form::label('attachment', 'Laporan Asal') !!}
             {!! Form::file('attachment', ['required' => 'required']) !!}
             <p class="help-bootock"><i>Sila muat naik pdf laporan asal</i></p>
             <small class="text-danger">{{ $errors->first('attachment') }}</small>

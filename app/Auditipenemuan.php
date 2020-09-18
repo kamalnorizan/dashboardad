@@ -16,5 +16,18 @@ class Auditipenemuan extends Model
 
     protected $guarded = ['id'];
 
-    
+    public function penemuan()
+    {
+        return $this->belongsTo('App\Penemuan', 'penemuan_id', 'id');
+    }
+
+    public function auditiuser()
+    {
+        return $this->belongsTo('App\User', 'auditi', 'id');
+    }
+
+    public function organisasi()
+    {
+        return $this->belongsTo('App\Organisasi', 'organisasi_id', 'id');
+    }
 }
