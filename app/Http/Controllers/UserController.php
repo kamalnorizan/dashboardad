@@ -21,9 +21,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('organisasi','jawatan')->whereHas('jawatan', function($query){
-            $query->where('name','=','Eksekutif');
-        })->paginate(20);
+        // $users = User::with('organisasi','jawatan')->whereHas('jawatan', function($query){
+        //     $query->where('name','=','Eksekutif');
+        // })->paginate(20);
+        $users = User::with('organisasi','jawatan')->paginate(20);
 
         $role_opts = Role::pluck('name','id');
 

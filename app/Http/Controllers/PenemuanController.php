@@ -21,6 +21,7 @@ class PenemuanController extends Controller
     {
         $findings = $laporan->findings;
         $org_opts = Organisasi::pluck('name','id');
+        $org_opts[0] = 'Sila pilih Organisasi Auditi';
         return view('penemuan.index',compact('findings','laporan','org_opts'));
     }
 
@@ -167,6 +168,7 @@ class PenemuanController extends Controller
     public function edit(Penemuan $penemuan)
     {
         $org_opts = Organisasi::pluck('name','id');
+        $org_opts[0] = 'Sila pilih Organisasi Auditi';
         return view('penemuan.edit',compact('penemuan','org_opts'));
     }
 
@@ -250,5 +252,12 @@ class PenemuanController extends Controller
         $penemuan->delete();
         flash('Penemuan berjaya dibatalkan')->error()->important();
         return back();
+    }
+
+    public function getpegawai(Organisasi $organisasi)
+    {
+        $users = User::where('organisasi_id',$organisasi->id)->role('auditee')->get();
+
+        return $users;
     }
 }

@@ -71,14 +71,14 @@
                     <div class="col-md-6" >
                         <div class="form-group{{ $errors->has('organisasi_id[]') ? ' has-error' : '' }}">
                             {!! Form::label('organisasi_id[]', 'Tindakan Auditi') !!} <button type="button" class="btn btn-primary btn-xs" id="tambah_org_btn"><i class="fa fa-plus"></i> Tambah</button>
-                            {!! Form::select('organisasi_id[]',$org_opts, null, ['id' => 'organisasi_id', 'class' => 'form-control', 'required' => 'required', 'onchange'=>'showname()']) !!}
+                            {!! Form::select('organisasi_id[]',$org_opts, 0, ['id' => 'organisasi_id', 'class' => 'form-control', 'required' => 'required', 'onchange'=>'showname(this)']) !!}
                             <small class="text-danger">{{ $errors->first('organisasi_id[]') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6 hidden" id="namefield">
                         <div class="form-group{{ $errors->has('user_id[]') ? ' has-error' : '' }}">
                             {!! Form::label('user_id[]', 'Pegawai Bertanggunjawab') !!}
-                            {!! Form::select('user_id[]',[], null, ['id' => 'user_id[]', 'class' => 'form-control', 'required' => 'required']) !!}
+                            {!! Form::select('user_id[]',[], null, ['id' => 'user_id', 'class' => 'form-control', 'required' => 'required']) !!}
                             <small class="text-danger">{{ $errors->first('user_id[]') }}</small>
                         </div>
                     </div>
@@ -169,8 +169,26 @@
             });
         });
 
-        function showname(){
-            $('#namefield').removeClass('hidden');
+        function showname(dom){
+            $('#user_id').find('option').remove();
+            var organisasi_id = $(dom).val();
+            $.ajax({
+                type: "get",
+                url: "/penemuan/getpegawai/"+organisasi_id,
+                success: function (response) {
+                    if (response.length < 1) {
+                        alert('Tiada auditee yang telah didaftarkan kepada organisasi yang dipilih. Sila daftarkan Auditee kepada organisasi');
+                        $(dom).val(0);
+                    }else{
+                        $.each(response, function (indexInArray, value) {
+                        $('#user_id').append('<option value="'+value.id+'">'+value.name+'</option>')
+                        });
+                        $('#namefield').removeClass('hidden');
+                    }
+
+                }
+            });
+
         }
 
     function removeOrg(dom) {

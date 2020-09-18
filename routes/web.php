@@ -63,3 +63,4 @@ Route::get('/penemuan/{penemuan}/edit', 'PenemuanController@edit')->name('penemu
 Route::put('/penemuan/{penemuan}', 'PenemuanController@update')->name('penemuan.update');
 Route::get('/penemuan/{penemuan}', 'PenemuanController@show')->name('penemuan.show');
 Route::get('/penemuan/{penemuan}/delete', 'PenemuanController@destroy')->name('penemuan.destroy');
+Route::get('/penemuan/getpegawai/{organisasi}', 'PenemuanController@getpegawai')->name('penemuan.getpegawai');
