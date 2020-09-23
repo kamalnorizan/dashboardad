@@ -228,7 +228,7 @@ class PenemuanController extends Controller
         foreach ($request->organisasi_id as $key => $organisasi) {
             $auditi = User::where('organisasi_id',$organisasi)->role('auditee')->first();
             $auditipenemuan = new Auditipenemuan;
-            $auditipenemuan->auditi = $auditi->id;
+            $auditipenemuan->auditi = $request->user_id[$key];
             $auditipenemuan->laporan_id = $penemuan->laporan_id;
             $auditipenemuan->penemuan_id = $penemuan->id;
             $auditipenemuan->organisasi_id = $organisasi;

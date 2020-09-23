@@ -75,10 +75,10 @@
                             <small class="text-danger">{{ $errors->first('organisasi_id[]') }}</small>
                         </div>
                     </div>
-                    <div class="col-md-6 hidden" id="namefield">
+                    <div class="col-md-6 hidden pegawaidiv">
                         <div class="form-group{{ $errors->has('user_id[]') ? ' has-error' : '' }}">
                             {!! Form::label('user_id[]', 'Pegawai Bertanggunjawab') !!}
-                            {!! Form::select('user_id[]',[], null, ['id' => 'user_id', 'class' => 'form-control', 'required' => 'required']) !!}
+                            {!! Form::select('user_id[]',[], null, ['id' => 'user_id', 'class' => 'form-control pegawai', 'required' => 'required']) !!}
                             <small class="text-danger">{{ $errors->first('user_id[]') }}</small>
                         </div>
                     </div>
@@ -164,13 +164,17 @@
                 type: "get",
                 url: "/penemuan/getorganisasi",
                 success: function (response) {
-                    $('#tambahorg').append('<div class="row"><div class="col-md-10"><div class="form-group"><select id="organisasi_id" class="form-control" required="required" name="organisasi_id[]">'+response+'</select></div></div><div class="col-md-2"><button class="btn btn-block btn-danger" type="button" onclick="removeOrg(this)"><i class="fa fa-times"></i></button></div></div></div>');
+                    $('#tambahorg').append('<div class="row"><div class="col-md-6"><div class="form-group"><label for="organisasi_id[]" class="hidden-md hidden-lg">Tindakan Auditi</label><select onchange="showname(this)" class="form-control" required="required" name="organisasi_id[]">'+response+'</select></div></div><div class="col-md-4 hidden pegawaidiv"><div class="form-group"><label for="user_id[]" class="hidden-md hidden-lg">Pegawai Bertanggunjawab</label><select class="form-control pegawai" required="required" name="user_id[]"><option value="38">Novella Crooks</option></select><small class="text-danger"></small></div></div><div class="col-md-2"><button class="btn btn-block btn-danger" type="button" onclick="removeOrg(this)"><i class="fa fa-times"></i></button></div></div></div>');
                 }
             });
         });
 
         function showname(dom){
-            $('#user_id').find('option').remove();
+            // $('#user_id').find('option').remove();
+            var pegawai = $(dom).parent().parent().parent().find($('select.pegawai'));
+            var pegawaidiv = $(dom).parent().parent().parent().find($('div.pegawaidiv'));
+            $(pegawai).find('option').remove();
+            console.log($(pegawai));
             var organisasi_id = $(dom).val();
             $.ajax({
                 type: "get",
@@ -179,11 +183,13 @@
                     if (response.length < 1) {
                         alert('Tiada auditee yang telah didaftarkan kepada organisasi yang dipilih. Sila daftarkan Auditee kepada organisasi');
                         $(dom).val(0);
+                        $(pegawaidiv).addClass('hidden');
                     }else{
                         $.each(response, function (indexInArray, value) {
-                        $('#user_id').append('<option value="'+value.id+'">'+value.name+'</option>')
+                            $(pegawai).append('<option value="'+value.id +'">'+value.name+'</option>')
                         });
-                        $('#namefield').removeClass('hidden');
+
+                        $(pegawaidiv).removeClass('hidden');
                     }
 
                 }
