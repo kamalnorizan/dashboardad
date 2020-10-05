@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Maklumbalas;
+use App\Laporan;
+use App\Penemuan;
+use Auth;
 use Illuminate\Http\Request;
 
 class MaklumbalasController extends Controller
@@ -14,7 +17,8 @@ class MaklumbalasController extends Controller
      */
     public function index()
     {
-        //
+        $maklumbalas = Laporan::orderBy('id','desc')->paginate(20);
+        return view('maklumbalas.index',compact('maklumbalas'));
     }
 
     /**
@@ -22,9 +26,11 @@ class MaklumbalasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Laporan $laporan)
     {
-        //
+        $findings = $laporan->findings;
+        $maklumbalas = Laporan::orderBy('id','desc')->paginate(20);
+        return view('maklumbalas.create',compact('laporan','findings','maklumbalas'));
     }
 
     /**
@@ -35,7 +41,7 @@ class MaklumbalasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect('/maklumbalas');
     }
 
     /**

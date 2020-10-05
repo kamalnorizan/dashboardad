@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Jawatankuasa;
+use App\Laporan;
+use App\Kategoriaudit;
+use App\User;
+use App\Progress;
+use App\Penemuan;
+use Auth;
 use Illuminate\Http\Request;
 
 class JawatankuasaController extends Controller
@@ -14,7 +20,9 @@ class JawatankuasaController extends Controller
      */
     public function index()
     {
-        //
+
+        $jawatankuasa = Laporan::orderBy('id','desc')->paginate(20);
+          return view('jawatankuasa.index',compact('jawatankuasa'));
     }
 
     /**
@@ -22,9 +30,12 @@ class JawatankuasaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Laporan $laporan)
     {
-        //
+        $findings = $laporan->findings;
+        $jawatankuasa= Laporan::orderBy('id','desc')->paginate(20);
+
+        return view ('jawatankuasa.create' ,compact('laporan','findings','jawatankuasa'));
     }
 
     /**
@@ -35,7 +46,19 @@ class JawatankuasaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'ulasan'         => 'required',
+            'auditor'     => 'required',
+            'progress_id'  => 'required',
+            'kcad'     => 'required',
+            'penemuan_id'     => 'required',
+         ]);
+
+        Ulasanjawatankuasa::create($request->all());
+
+        flash('Semakan dan Ulasan Jawatankuasa telah berjaya direkodkan')->success()->important();
+        return redirect('/jawatankuasa');
     }
 
     /**
@@ -55,9 +78,12 @@ class JawatankuasaController extends Controller
      * @param  \App\Jawatankuasa  $jawatankuasa
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jawatankuasa $jawatankuasa)
+    public function edit(Jawatankuasa $jawatankuasa, Laporan $laporan)
     {
-        //
+        $findings = $laporan->findings;
+        $jawatankuasa2 = Penemuan::orderBy('id','desc')->paginate(20);
+
+        return view ('jawatankuasa.edit' ,compact('laporan','findings','jawatankuasa'));
     }
 
     /**
@@ -67,9 +93,18 @@ class JawatankuasaController extends Controller
      * @param  \App\Jawatankuasa  $jawatankuasa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jawatankuasa $jawatankuasa)
+    public function update(Request $request, Jawatankuasa $jawatankuasa, Laporan $laporan)
     {
-        //
+        $request->validate([
+            'tajuk'     => 'required',
+            'tarikh'    => 'required',
+
+        ]);
+
+        $laporan->update($request->all());
+
+        flash('Semakan Jawatankuasa telah berjaya.')->success()->important();
+        return redirect('laporan');
     }
 
     /**

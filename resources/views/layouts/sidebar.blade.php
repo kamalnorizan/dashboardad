@@ -30,7 +30,7 @@
             </li>
             @can('show user')
             <li>
-                <a href="/user"><i class="fa fa-building"></i> <span class="nav-label">Pengurusan Pentadbir</span><span class="fa arrow"></span></a>
+                <a href="/user"><i class="fa fa-building"></i> <span class="nav-label">Pentadbir Sistem</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="/organisasi">Organisasi</a></li>
                     <li><a href="/jawatan">Jawatan</a></li>
@@ -41,9 +41,33 @@
             </li>
             @endcan
             <li>
-                <a href="/laporan"><i class="fa fa-user"></i> <span class="nav-label">Laporan Audit</span><span class="fa arrow"></a>
+                <a href="/laporan"><i class="fa fa-folder-open"></i> <span class="nav-label">Laporan Audit</span><span class="fa arrow"></a>
                 <ul class="nav nav-second-level">
                     <li><a href="/laporan">Laporan Penemuan</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/kcad"><i class="fa fa-user"></i> <span class="nav-label">Ketua Audit</span><span class="fa arrow"></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="/kcad">Semakan Ketua Audit</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/maklumbalas"><i class="fa fa-laptop"></i> <span class="nav-label">Penemuan Auditee</span><span class="fa arrow"></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="/maklumbalas">Maklumbalas Auditee</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/jawatankuasa"><i class="fa fa-group"></i> <span class="nav-label">Jawatankuasa Audit</span><span class="fa arrow"></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="/jawatankuasa">Semakan Jawatankuasa</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/statistik"><i class="fa fa-pie-chart"></i> <span class="nav-label">Statistik </span><span class="fa arrow"></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="/statistik">Kategori Audit</a></li>
                 </ul>
             </li>
         </ul>

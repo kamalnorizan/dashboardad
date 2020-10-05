@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Laporan Penemuan')
+@section('title','Laporan Audit & Penemuan')
 
 @section('head')
 <link href="{{ asset('res/css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
@@ -17,7 +17,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h3>Senarai Laporan Penemuan </h3>
+                    <h3>Senarai Laporan Audit </h3>
                 </div>
                 <div class="ibox-content">
                     <table class="table" id="laporanajax">

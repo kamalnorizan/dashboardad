@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Ulasanpenemuan;
+use App\Laporan;
+use App\Jawatankuasa;
+use App\User;
+use App\Organisasi;
+use App\Penemuan;
+use Auth;
 use Illuminate\Http\Request;
 
 class UlasanpenemuanController extends Controller
@@ -14,7 +20,8 @@ class UlasanpenemuanController extends Controller
      */
     public function index()
     {
-        //
+        $kcad = Laporan::orderBy('id','desc')->paginate(20);
+        return view('kcad.index', compact('kcad'));
     }
 
     /**
@@ -22,9 +29,11 @@ class UlasanpenemuanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Laporan $laporan)
     {
-        //
+        $findings = $laporan->findings;
+        $kcad = Laporan::orderBy('id','desc')->paginate(20);
+        return view('kcad.create',compact('laporan','findings','kcad'));
     }
 
     /**
@@ -35,7 +44,19 @@ class UlasanpenemuanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'ulasan'         => 'required',
+            'auditor'     => 'required',
+            'progress_id'  => 'required',
+            'kcad'     => 'required',
+            'penemuan_id'     => 'required',
+         ]);
+
+        Ulasanpenemuan::create($request->all());
+
+        flash('Semakan Penemuan telah berjaya direkodkan')->success()->important();
+        return redirect('kcad');
     }
 
     /**
@@ -55,9 +76,12 @@ class UlasanpenemuanController extends Controller
      * @param  \App\Ulasanpenemuan  $ulasanpenemuan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ulasanpenemuan $ulasanpenemuan)
+    public function edit(Ulasanpenemuan $ulasanpenemuan, Laporan $laporan)
     {
-        //
+        // $findings = $laporan->findings;
+        // // $jawatankuasa2 = Penemuan::orderBy('id','desc')->paginate(20);
+        // $kcad = Laporan::orderBy('id','desc')->paginate(20);
+        // return view ('kcad.edit' ,compact('laporan','findings','kcad'));
     }
 
     /**
