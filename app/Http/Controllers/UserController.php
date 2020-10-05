@@ -38,12 +38,13 @@ class UserController extends Controller
      */
     public function create()
     {
+        $role_opts = Role::pluck('name','id');
         $titleOpts = Jawatan::pluck('name','id');
         // $orgOpts = Organisasi::pluck('name','id');
         $orgTypeOpts = Org_type::pluck('name','id');
         $stateOpts = Negeri::pluck('name','id');
         $stateOpts[0] = 'Sila pilih negeri';
-        return view('users.create',compact('titleOpts','orgTypeOpts','stateOpts'));
+        return view('users.create',compact('titleOpts','orgTypeOpts','stateOpts','role_opts'));
     }
 
     /**
@@ -74,6 +75,8 @@ class UserController extends Controller
         $user->organisasi_id = $request->organisasi_id;
         $user->password = bcrypt($password);
         $user->save();
+
+        $user->assignRole($request->role);
 
         Mail::send('users.mail', compact('user','password'), function ($message) {
             $message->from('john@johndoe.com', 'John Doe');
@@ -141,6 +144,14 @@ class UserController extends Controller
     {
         $organizations = Organisasi::where('org_type_id',$id)->where('negeri_id',$negeri)->get();
         return $organizations;
+    }
+
+    public function revokeuserrole($role, User $user)
+    {
+        $user->removeRole($role);
+        flash('Role pengguna berjaya di keluarkan')->success()->important();
+
+        return back();
     }
 
 

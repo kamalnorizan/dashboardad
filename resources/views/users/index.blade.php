@@ -56,7 +56,7 @@ rel="stylesheet">
                             </td>
                             <td>
                                 @foreach ($user->roles as $role)
-                            <a href="#" onclick="return confirm('Adakah anda pasti')" class="badge badge-warning">{{$role->name}}</a>
+                            <a href="/user/revokeuserrole/{{$role->name}}/{{$user->id}}" onclick="return confirm('Adakah anda pasti')" class="badge badge-warning">{{$role->name}}</a>
                                 @endforeach
                             </td>
                             <td>

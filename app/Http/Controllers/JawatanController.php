@@ -46,7 +46,7 @@ class JawatanController extends Controller
         Jawatan::create($request->all());
 
         flash('Maklumat jawatan telah berjaya ditambah')->success()->important();
-        return view('jawatan.store');
+        return redirect()->route('jawatan.index');
     }
 
     /**

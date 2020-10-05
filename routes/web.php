@@ -28,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // User
 Route::get('user/getOrg/{id}', 'UserController@getOrg');
 Route::get('user/getOrg/{id}/{negeri}', 'UserController@getOrgNegeri');
+Route::get('/user/revokeuserrole/{role}/{user}', 'UserController@revokeuserrole')->name('user.revokeuserrole');
 Route::resource('user', 'UserController')->middleware(['auth','permission: show user|edit user']);
 
 // Organisasi

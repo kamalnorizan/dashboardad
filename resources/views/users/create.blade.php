@@ -3,6 +3,14 @@
 @section('title','Pengurusan Pengguna')
 
 @section('head')
+<link href="{{ asset('res/css/plugins/chosen/chosen.css') }}"
+rel="stylesheet">
+
+<style>
+    .chosen-container {
+        width: 100% !important;
+    }
+</style>
 @endsection
 
 @section('action')
@@ -80,7 +88,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group{{ $errors->has('role[]') ? ' has-error' : '' }}">
+                                {!! Form::label('role[]', 'Peranan') !!}
+                                {!! Form::select('role[]',$role_opts,0, ['id' => 'roledrop', 'class' => 'form-control', 'required' => 'required', 'multiple']) !!}
+                                <small class="text-danger">{{ $errors->first('role[]') }}</small>
+                            </div>
 
+                        </div>
+                    </div>
                     <div class="btn-group pull-right">
                         {!! Form::reset("Reset", ['class' => 'btn btn-warning']) !!}
                         {!! Form::submit("Hantar", ['class' => 'btn btn-success']) !!}
@@ -96,6 +113,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('res/js/plugins/chosen/chosen.jquery.js') }}"></script>
 <script>
     $(document).ready(function () {
         getOrganisasi();
@@ -109,6 +127,15 @@
                 getOrganisasi();
             }
 
+        });
+
+        $("#roledrop").chosen();
+
+        $('#assignrole-modal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var user_id = button.data('user_id');
+
+                $('#user_id_assignrole').val(user_id);
         });
 
         $('#negeri').change(function (e) {
