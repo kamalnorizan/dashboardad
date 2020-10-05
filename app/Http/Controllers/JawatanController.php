@@ -101,6 +101,8 @@ class JawatanController extends Controller
      */
     public function destroy(Jawatan $jawatan)
     {
-        //
+        $jawatan->delete();
+        flash('Jawatan telah dipadam')->error()->important();
+        return back();
     }
 }

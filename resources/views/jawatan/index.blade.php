@@ -37,7 +37,7 @@
 
 
                                 <form method="POST" action="{{route('jawatan.destroy',['jawatan'=>$jawatan->id])}}">
-                                    
+
                                     <a href="{{route('jawatan.edit',['jawatan'=>$jawatan->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
 
                                     <a href="#" class="btn btn-danger btn-sm removejawatan" data-id="{{$jawatan->id}}"><i class="fa fa-times"></i> Padam</a>
