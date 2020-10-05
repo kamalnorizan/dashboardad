@@ -14,7 +14,9 @@ class JawatanController extends Controller
      */
     public function index()
     {
-        //
+        $jawatans = Jawatan::orderBy('id','desc')->paginate(10);
+
+        return view('jawatan.index',compact('jawatans'));
     }
 
     /**
@@ -24,7 +26,7 @@ class JawatanController extends Controller
      */
     public function create()
     {
-        //
+        return view('jawatan.create');
     }
 
     /**
@@ -35,7 +37,16 @@ class JawatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'name'    => 'required',
+
+        ]);
+
+        Jawatan::create($request->all());
+
+        flash('Maklumat jawatan telah berjaya ditambah')->success()->important();
+        return view('jawatan.store');
     }
 
     /**
@@ -57,7 +68,7 @@ class JawatanController extends Controller
      */
     public function edit(Jawatan $jawatan)
     {
-        //
+                 return view('jawatan.edit', compact('jawatan'));
     }
 
     /**
@@ -69,7 +80,17 @@ class JawatanController extends Controller
      */
     public function update(Request $request, Jawatan $jawatan)
     {
-        //
+        $request->validate([
+
+            'name'         => 'required',
+
+        ]);
+
+        $jawatan->update($request->all());
+
+
+        flash('Maklumat jawatan telah berjaya dikemaskini')->success()->important();
+        return redirect('jawatan');
     }
 
     /**
