@@ -50,6 +50,7 @@ Route::post('/permission/assignrole', 'PermissionController@assignrole')->name('
 
 
 // laporan
+Route::post('/laporan/auditorhantarlaporan', 'LaporanController@auditorhantarlaporan')->name('laporan.auditorhantarlaporan');
 Route::get('/laporan/getSubkategori/{kategori}', 'LaporanController@getSubkategori')->name('laporan.getSubkategori');
 Route::get('/laporan/getJawatankuasa', 'LaporanController@getJawatankuasa')->name('laporan.getJawatankuasa');
 Route::get('/laporan/ajaxlaporan', 'LaporanController@ajaxlaporan')->name('laporan.ajaxlaporan');

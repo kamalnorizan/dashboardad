@@ -22,13 +22,13 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $reports = Laporan::where('auditor',Auth::user()->id)->get();
+        $reports = Laporan::where('auditor',Auth::user()->id)->whereIn('status',['draft','pindaan','gugur'])->get();
         return view('laporan.index',compact('reports'));
     }
 
     public function ajaxlaporan()
     {
-        $reports = Laporan::where('auditor',Auth::user()->id)->get();
+        $reports = Laporan::where('auditor',Auth::user()->id)->whereIn('status',['draft','pindaan','gugur'])->get();
         $i=0;
         return datatables()->of($reports)
             ->addColumn('no_bil', function($report){
@@ -51,7 +51,7 @@ class LaporanController extends Controller
             })
             ->addColumn('status', function($report){
 
-                return 'test';
+                return $report->status;
             })
             ->addColumn('tindakan', function($report){
                 $buttons = '<a class="btn btn-xs btn-primary" href="'.route('penemuan.index',['laporan'=>$report->id]).'"><i class="fa fa-edit"></i></a>';
@@ -125,49 +125,13 @@ class LaporanController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Laporan  $laporan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Laporan $laporan)
+    public function auditorhantarlaporan(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Laporan  $laporan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Laporan $laporan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Laporan  $laporan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Laporan $laporan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Laporan  $laporan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Laporan $laporan)
-    {
-        //
+        $laporan = Laporan::find($request->laporan_id);
+        $laporan->status = 'semakan kcad';
+        $laporan->save();
+        flash('Laporan telah dihantar kepada KCAD untuk semakan')->success()->important();
+        return redirect('/laporan');
     }
 
     public function getSubkategori(Kategoriaudit $kategori)

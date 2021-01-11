@@ -14,7 +14,7 @@ class AddStatusToLaporan extends Migration
     public function up()
     {
         Schema::table('laporan', function (Blueprint $table) {
-            $table->string('status', 100)->default('draft');
+            $table->string('status', 100)->default('draft')->after('kategori_id');
         });
     }
 

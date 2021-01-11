@@ -13,7 +13,16 @@
 @endsection
 
 @section('action')
-<a class="btn btn-primary btn-sm" data-toggle="modal" href='#tambahpenemuan-modal'><i class="fa fa-plus"></i> Tambah Penemuan</a>
+{!! Form::open(['method' => 'POST', 'route' => 'laporan.auditorhantarlaporan']) !!}
+
+    {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
+
+
+        {!! Form::submit("Hantar Laporan", ['class' => 'btn btn-sm btn-info']) !!}
+
+
+{!! Form::close() !!}
+{{-- <a href="#" class="btn btn-sm btn-info">Hantar Laporan</a> --}}
 
 @endsection
 
@@ -23,7 +32,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h3>Senarai Penemuan</h3>
+                    <h3>Senarai Penemuan<a class="btn btn-primary btn-sm pull-right" data-toggle="modal" href='#tambahpenemuan-modal'><i class="fa fa-plus"></i> Tambah Penemuan</a></h3>
                 </div>
                 <div class="ibox-content">
                     <table class="table" id="penemuanajax">

@@ -20,7 +20,7 @@ class UlasanpenemuanController extends Controller
      */
     public function index()
     {
-        $kcad = Laporan::orderBy('id','desc')->paginate(20);
+        $kcad = Laporan::where('status','semakan kcad')->orderBy('id','desc')->paginate(20);
         return view('kcad.index', compact('kcad'));
     }
 
