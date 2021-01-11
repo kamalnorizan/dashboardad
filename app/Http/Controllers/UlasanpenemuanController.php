@@ -20,7 +20,7 @@ class UlasanpenemuanController extends Controller
      */
     public function index()
     {
-        $kcad = Laporan::where('status','semakan kcad')->orderBy('id','desc')->paginate(20);
+        $kcad = Laporan::where('status','kcad')->orderBy('id','desc')->paginate(20);
         return view('kcad.index', compact('kcad'));
     }
 
@@ -33,7 +33,9 @@ class UlasanpenemuanController extends Controller
     {
         // $findings = $laporan->findings;
         // $kcad = Laporan::orderBy('id','desc')->paginate(20);
-        $kcad = Penemuan::where('laporan_id', $laporan->id)->paginate(20);
+        $kcad = Penemuan::where('laporan_id', $laporan->id)->whereIn('progress_id',['1','3','4','8'])->paginate(20);
+
+        // dd($kcad);
         return view('kcad.create',compact('laporan','kcad'));
     }
 

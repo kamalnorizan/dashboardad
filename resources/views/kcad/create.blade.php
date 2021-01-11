@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="form-group{{ $errors->has('penemuan') ? ' has-error' : '' }}">
-                    {!! Form::textarea('penemuan', $penemuan->penemuan ??'', ['class' => 'form-control', 'required' => 'required']) !!}
+                    {!! Form::textarea('penemuan', $penemuan->penemuan ??'', ['class' => 'form-control', 'required' => 'required', 'id'=>'penemuan']) !!}
                     <small class="text-danger">{{ $errors->first('penemuan') }}</small>
                 </div>
                 {{-- ini untuk selection lulus @ pindaan, if pindaan akan kluar text untuk ulasan --}}
@@ -117,6 +117,17 @@
 @endsection
 
 @section('script')
+<script>
+    $('#tambahpenemuan-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var penemuan = button.data('penemuan');
+        console.log(penemuan);
+        $('#laporan_id').val(penemuan['id']);
+        $('#perenggan').val(penemuan['perenggan']);
+        $('#penemuan').text(penemuan['penemuan']);
+    });
+</script>
+
 @endsection
 
 

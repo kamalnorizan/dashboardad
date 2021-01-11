@@ -22,13 +22,13 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $reports = Laporan::where('auditor',Auth::user()->id)->whereIn('status',['draft','pindaan','gugur'])->get();
+        $reports = Laporan::where('auditor',Auth::user()->id)->where('status','auditor')->get();
         return view('laporan.index',compact('reports'));
     }
 
     public function ajaxlaporan()
     {
-        $reports = Laporan::where('auditor',Auth::user()->id)->whereIn('status',['draft','pindaan','gugur'])->get();
+        $reports = Laporan::where('auditor',Auth::user()->id)->where('status','auditor')->get();
         $i=0;
         return datatables()->of($reports)
             ->addColumn('no_bil', function($report){
@@ -128,8 +128,9 @@ class LaporanController extends Controller
     public function auditorhantarlaporan(Request $request)
     {
         $laporan = Laporan::find($request->laporan_id);
-        $laporan->status = 'semakan kcad';
+        $laporan->status = 'kcad';
         $laporan->save();
+
         flash('Laporan telah dihantar kepada KCAD untuk semakan')->success()->important();
         return redirect('/laporan');
     }
