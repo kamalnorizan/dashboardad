@@ -13,8 +13,15 @@
 @endsection
 
 @section('action')
+{!! Form::open(['method' => 'POST', 'route' => 'kcad.kcadhantarstatus']) !!}
 
+    {!! Form::hidden('laporan_id', $kcad->first()->laporan_id, ['id'=>'laporan_id']) !!}
 
+        <button type="submit" @if ($kcad->where('progress_id',1)->count()+$kcad->where('progress_id',8)->count()>0 && $kcad->where('progress_id',1)->count()) disabled @endif class="btn btn-primary">Hantar</button>
+
+{!! Form::close() !!}
+{{-- <a href="#" @if ($kcad->where('progress_id',1)->count()+$kcad->where('progress_id',8)->count()>0 && $kcad->where('progress_id',1)->count()) disabled @endif class="btn btn-primary">Hantar</a> --}}
+{{-- {{$kcad->where('progress_id',1)->count()+$kcad->where('progress_id',8)->count()}} --}}
 @endsection
 
 @section('content')
@@ -46,15 +53,17 @@
                             <td>
                                 {!!$laporan->penemuan!!}
                             </td>
-                            {{-- <td> auditi yang bertanggungjawab --}}
-                                {{-- {{$laporan->kategoriaudit->name}} --}}
+                            <td>
+                                @foreach ($laporan->audities as $auditi)
+                                    - {{$auditi->auditiuser->name}} <br>
+                                @endforeach
                             </td>
                             <td>
-                                {{-- {{$penemuan->progress->name}} --}}
+                                {{$laporan->progress->name}}
                             </td>
 
                             <td>
-                                 <a class="btn btn-primary btn-sm" data-penemuan="{{$laporan}}" data-toggle="modal" href='#tambahpenemuan-modal'<i class="fa fa-plus"></i> Semakan</a>
+                                 <a class="btn btn-primary btn-sm" @if($laporan->progress->name=='Gugur') disabled @else href='{{route('kcad.show',['penemuan'=>$laporan->id])}}' @endif  ><i class="fa fa-plus"></i> Semakan</a>
                             </td>
                         </tr>
                         @endforeach
@@ -62,53 +71,6 @@
                     {{-- {{$kcad->links()}} --}}
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="tambahpenemuan-modal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Semakan Ketua Audit </h4>
-            </div>
-            {{-- {!! Form::open(['method' => 'POST', 'route' => 'laporan.store']) !!} --}}
-            {!! Form::model($kcad, ['route' => ['kcad.store', $laporan->id], 'method' => 'POST']) !!}
-            <div class="modal-body">
-                {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group{{ $errors->has('perenggan') ? ' has-error' : '' }}">
-                            {!! Form::label('perenggan', 'Perenggan Penemuan') !!}
-                            {!! Form::text('perenggan', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                            <small class="text-danger">{{ $errors->first('perenggan') }}</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('penemuan') ? ' has-error' : '' }}">
-                    {!! Form::textarea('penemuan', $penemuan->penemuan ??'', ['class' => 'form-control', 'required' => 'required', 'id'=>'penemuan']) !!}
-                    <small class="text-danger">{{ $errors->first('penemuan') }}</small>
-                </div>
-                {{-- ini untuk selection lulus @ pindaan, if pindaan akan kluar text untuk ulasan --}}
-                <div class="row">
-                    <div class="dropdown col-md-6">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Lulus</a></li>
-                          <li><a href="#">Pindaan</a></li>
-                        </ul>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            {!! Form::close() !!}
         </div>
     </div>
 </div>

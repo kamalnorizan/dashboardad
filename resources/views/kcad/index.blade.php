@@ -40,6 +40,9 @@
                             </td>
                             <td>
                                 {{$laporan->kategoriaudit->name}}
+                                {{-- @foreach ($laporan->audities as $auditi)
+                                    - {{$auditi->auditiuser->name}} <br>
+                                @endforeach --}}
                             </td>
                             <td>
                                 {{-- {{$laporan->progress->name}} --}}

@@ -18,7 +18,13 @@
 @section('content')
 <div class="wrapper wrapper-content">
     <div class="row">
+        @if ($penemuan->ulasanpenemuan->first())
+
+        <div class="col-lg-8">
+        @else
         <div class="col-lg-12">
+
+        @endif
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h3>Borang Kemaskini Penemuan</h3>
@@ -46,13 +52,19 @@
                         {!! Form::label('organisasi_id[]', 'Tindakan Auditi') !!} <button type="button" class="btn btn-primary btn-xs" id="tambah_org_btn"><i class="fa fa-plus"></i> Tambah</button>
                         @foreach ($penemuan->audities as $auditi)
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <div class="form-group{{ $errors->has('organisasi_id[]') ? ' has-error' : '' }}">
 
                                     {!! Form::select('organisasi_id[]',$org_opts, $auditi->organisasi_id, ['id' => 'organisasi_id', 'class' => 'form-control', 'required' => 'required']) !!}
                                     <small class="text-danger">{{ $errors->first('organisasi_id[]') }}</small>
                                 </div>
                             </div>
+                            {{-- <div class="col-md-5">
+                                <div class="form-group{{ $errors->has('organisasi_id[]') ? ' has-error' : '' }}">
+                                    {!! Form::select('organisasi_id[]',$org_opts, $auditi->organisasi_id, ['id' => 'organisasi_id', 'class' => 'form-control', 'required' => 'required']) !!}
+                                    <small class="text-danger">{{ $errors->first('organisasi_id[]') }}</small>
+                                </div>
+                            </div> --}}
                             <div class="col-md-2">
                                 <button class="btn btn-block btn-danger removeBtn" type="button"><i class="fa fa-times"></i></button>
                             </div>
@@ -70,6 +82,37 @@
                 </div>
             </div>
         </div>
+        @if ($penemuan->ulasanpenemuan->first())
+        <div class="col-md-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Ulasan</h5>
+
+                </div>
+                <div class="ibox-content inspinia-timeline">
+                    <div class="timeline-item">
+                        @foreach ($penemuan->ulasanpenemuan->sortByDesc('created_at') as $ulasan)
+
+                        <div class="row">
+                            <div class="col-sm-4 date">
+                                <i class="fa fa-info"></i>
+                                {{\Carbon\Carbon::parse($ulasan->created_at)->format('d-m-Y')}}
+                                <br>
+                                <small class="text-navy">{{\Carbon\Carbon::parse($ulasan->created_at)->format('H:i:s')}}</small>
+                            </div>
+                            <div class="col-sm-8 content no-top-border">
+                                <p class="m-b-xs"><strong>Ulasan</strong></p>
+
+                                <p>{{$ulasan->ulasan}}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
     </div>
 </div>
 @endsection

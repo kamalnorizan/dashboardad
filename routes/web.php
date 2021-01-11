@@ -78,7 +78,10 @@ Route::get('/jawatankuasa/create/{laporan}', 'JawatankuasaController@create')->n
 Route::post('/jawatankuasa', 'JawatankuasaController@store')->name('jawatankuasa.store');
 
 // KCAD
-Route::resource('kcad', 'UlasanpenemuanController')->middleware('auth');
+Route::post('/kcad/kcadhantarstatus', 'UlasanpenemuanController@kcadhantarstatus')->name('kcad.kcadhantarstatus');
+Route::resource('kcad', 'UlasanpenemuanController')->except(['show'])->middleware('auth');
+Route::post('/kcad/semakan/update', 'UlasanpenemuanController@semakanupdate')->name('kcad.semakanupdate')->middleware('auth');
+Route::get('/kcad/show/{penemuan}', 'UlasanpenemuanController@show')->name('kcad.show')->middleware('auth');
 Route::get('/kcad/create/{laporan}', 'UlasanpenemuanController@create')->name('kcad.create');
 Route::post('/kcad', 'UlasanpenemuanController@store')->name('kcad.store');
 

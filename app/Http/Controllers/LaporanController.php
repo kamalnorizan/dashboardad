@@ -91,6 +91,7 @@ class LaporanController extends Controller
         $laporan->tahun = $request->tahun;
         $laporan->auditor = Auth::user()->id;
         $laporan->kcad = $kcad->id;
+        $laporan->status = 'auditor';
         $laporan->organisasi_id = $request->organisasi_id;
         if(isset($request->subkategori)){
             $laporan->kategori_id = $request->subkategori;

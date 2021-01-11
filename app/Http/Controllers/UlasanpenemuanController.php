@@ -8,6 +8,7 @@ use App\Jawatankuasa;
 use App\User;
 use App\Organisasi;
 use App\Penemuan;
+use App\Progress;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class UlasanpenemuanController extends Controller
     {
         // $findings = $laporan->findings;
         // $kcad = Laporan::orderBy('id','desc')->paginate(20);
-        $kcad = Penemuan::where('laporan_id', $laporan->id)->whereIn('progress_id',['1','3','4','8'])->paginate(20);
+        $kcad = Penemuan::where('laporan_id', $laporan->id)->whereIn('progress_id',['1','3','4','5','8'])->paginate(20);
 
         // dd($kcad);
         return view('kcad.create',compact('laporan','kcad'));
@@ -68,45 +69,38 @@ class UlasanpenemuanController extends Controller
      * @param  \App\Ulasanpenemuan  $ulasanpenemuan
      * @return \Illuminate\Http\Response
      */
-    public function show(Ulasanpenemuan $ulasanpenemuan)
+    public function show(Penemuan $penemuan)
     {
-        //
+
+        $statusOpt = Progress::whereIn('name',['Lulus','Pindaan','Gugur'])->pluck('name','id');
+        return view('kcad.semakan', compact('penemuan','statusOpt'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ulasanpenemuan  $ulasanpenemuan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ulasanpenemuan $ulasanpenemuan, Laporan $laporan)
+    public function semakanupdate(Request $request)
     {
-        // $findings = $laporan->findings;
-        // // $jawatankuasa2 = Penemuan::orderBy('id','desc')->paginate(20);
-        // $kcad = Laporan::orderBy('id','desc')->paginate(20);
-        // return view ('kcad.edit' ,compact('laporan','findings','kcad'));
+        $penemuan = Penemuan::find($request->penemuan_id);
+        $penemuan->progress_id = $request->status;
+        $penemuan->save();
+
+        $ulasanpenemuan = new Ulasanpenemuan;
+        $ulasanpenemuan->ulasan = $request->ulasan;
+        $ulasanpenemuan->auditor = $penemuan->laporan->auditor;
+        $ulasanpenemuan->kcad = Auth::user()->id;
+        $ulasanpenemuan->penemuan_id = $penemuan->id;
+        $ulasanpenemuan->progress_id = $request->status;
+        $ulasanpenemuan->save();
+
+        flash('Semakan status telah berjaya disimpan')->success()->important();
+        return redirect('/kcad/create/'.$penemuan->laporan_id);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ulasanpenemuan  $ulasanpenemuan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ulasanpenemuan $ulasanpenemuan)
+    public function kcadhantarstatus(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ulasanpenemuan  $ulasanpenemuan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ulasanpenemuan $ulasanpenemuan)
-    {
-        //
+        $laporan = Laporan::find($request->laporan_id);
+        $laporan->status = 'auditor';
+        $laporan->save();
+        flash('Laporan telah berjaya dihantar kembali kepada Auditor')->success()->important();
+        return redirect(route('kcad.index'));
     }
 }

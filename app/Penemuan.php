@@ -30,4 +30,14 @@ class Penemuan extends Model
     {
         return $this->morphMany('App\Attachment', 'attachable');
     }
+
+    public function laporan()
+    {
+        return $this->belongsTo('App\Laporan', 'laporan_id', 'id');
+    }
+
+    public function ulasanpenemuan()
+    {
+        return $this->hasMany('App\Ulasanpenemuan', 'penemuan_id', 'id');
+    }
 }

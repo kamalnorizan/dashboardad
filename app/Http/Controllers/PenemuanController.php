@@ -61,9 +61,13 @@ class PenemuanController extends Controller
             ->addColumn('tindakan', function($penemuan){
                 $buttons='';
                     $buttons .= '<a class="btn btn-xs btn-info" href="'.route('penemuan.show',['penemuan'=>$penemuan->id]).'"><i class="fa fa-eye"></i></a> ';
-                    if($penemuan->progress->name != 'Lulus'){
-                        $buttons .= '<a class="btn btn-xs btn-primary" href="'.route('penemuan.edit',['penemuan'=>$penemuan->id]).'"><i class="fa fa-edit"></i></a> ';
-                        $buttons .= '<a onclick="return confirm(\'Adakah anda pasti?\')" class="btn btn-xs btn-danger" href="'.route('penemuan.destroy',['penemuan'=>$penemuan->id]).'"><i class="fa fa-times"></i></a>';
+                    if($penemuan->progress->name != 'Lulus' ){
+                            if($penemuan->progress->name != 'Gugur' ){
+                            $buttons .= '<a class="btn btn-xs btn-primary" href="'.route('penemuan.edit',['penemuan'=>$penemuan->id]).'"><i class="fa fa-edit"></i></a> ';
+                            if($penemuan->progress->name == 'Draft' ){
+                                $buttons .= '<a onclick="return confirm(\'Adakah anda pasti?\')" class="btn btn-xs btn-danger" href="'.route('penemuan.destroy',['penemuan'=>$penemuan->id]).'"><i class="fa fa-times"></i></a>';
+                            }
+                        }
                     }
 
                 return $buttons;
