@@ -31,9 +31,10 @@ class UlasanpenemuanController extends Controller
      */
     public function create(Laporan $laporan)
     {
-        $findings = $laporan->findings;
-        $kcad = Laporan::orderBy('id','desc')->paginate(20);
-        return view('kcad.create',compact('laporan','findings','kcad'));
+        // $findings = $laporan->findings;
+        // $kcad = Laporan::orderBy('id','desc')->paginate(20);
+        $kcad = Penemuan::where('laporan_id', $laporan->id)->paginate(20);
+        return view('kcad.create',compact('laporan','kcad'));
     }
 
     /**

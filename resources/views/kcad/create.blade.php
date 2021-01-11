@@ -41,10 +41,10 @@
                                 {{(($kcad->currentPage()-1)*20)+$key+1}}
                             </td>
                             <td>
-                                {{$laporan->tajuk}}
+                                {{$laporan->perenggan}}
                             </td>
                             <td>
-                                {{$laporan->tarikh}}
+                                {!!$laporan->penemuan!!}
                             </td>
                             {{-- <td> auditi yang bertanggungjawab --}}
                                 {{-- {{$laporan->kategoriaudit->name}} --}}
@@ -54,12 +54,12 @@
                             </td>
 
                             <td>
-                                 <a class="btn btn-primary btn-sm" data-toggle="modal" href='#tambahpenemuan-modal'<i class="fa fa-plus"></i> Semakan</a>
+                                 <a class="btn btn-primary btn-sm" data-penemuan="{{$laporan}}" data-toggle="modal" href='#tambahpenemuan-modal'<i class="fa fa-plus"></i> Semakan</a>
                             </td>
                         </tr>
                         @endforeach
                     </table>
-                    {{$kcad->links()}}
+                    {{-- {{$kcad->links()}} --}}
                 </div>
             </div>
         </div>
