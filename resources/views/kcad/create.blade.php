@@ -37,7 +37,7 @@
                         <tr>
                             <th>Bil</th>
                             <th>Perenggan</th>
-                            <th>Penemuan Audit</th>
+                            <th width="50%">Penemuan Audit</th>
                             <th>Auditi</th>
                             <td>Status</td>
                             <td>Tindakan</td>
@@ -51,7 +51,18 @@
                                 {{$penemuan->perenggan}}
                             </td>
                             <td>
-                                {!!$penemuan->penemuan!!}
+                                @php
+                                    $stringlength = 100;
+                                    if (strlen($penemuan->penemuan) > $stringlength)
+                                    {
+                                        $string = wordwrap($penemuan->penemuan, 100);
+                                        $i = strpos($string, "\n");
+                                        if ($i) {
+                                            $string = substr($string, 0, $i);
+                                        }
+                                    }
+                                @endphp
+                                {!! $string !!}
                             </td>
                             <td>
                                 @foreach ($penemuan->audities as $auditi)

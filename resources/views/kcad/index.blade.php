@@ -24,7 +24,7 @@
                             <td>Tajuk Laporan</td>
                             <td>Tarikh Laporan</td>
                             <td>Kategori Laporan</td>
-                            <td>Status</td>
+                            {{-- <td>Status</td> --}}
                             <td>Tindakan</td>
                         </tr>
                         @foreach ($kcad as $key=>$laporan)
@@ -36,7 +36,7 @@
                                 {{$laporan->tajuk}}
                             </td>
                             <td>
-                                {{$laporan->tarikh}}
+                                {{\Carbon\Carbon::parse($laporan->tarikh)->format('d-m-Y')}}
                             </td>
                             <td>
                                 {{$laporan->kategoriaudit->name}}
@@ -44,9 +44,9 @@
                                     - {{$auditi->auditiuser->name}} <br>
                                 @endforeach --}}
                             </td>
-                            <td>
-                                {{-- {{$laporan->progress->name}} --}}
-                            </td>
+                            {{-- <td>
+                                {{$laporan->progress->name}}
+                            </td> --}}
 
                             <td>
                                  <a href="{{route('kcad.create',['laporan'=>$laporan->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Penemuan</a>

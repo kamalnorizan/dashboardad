@@ -17,12 +17,10 @@
 
     {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
 
-
-        {!! Form::submit("Hantar Laporan", ['class' => 'btn btn-sm btn-info']) !!}
-
+        {{-- {!! Form::submit("Hantar Laporan", ['class' => 'btn btn-sm btn-info']) !!} --}}
+        <button type="submit" @if ($findings->where('progress_id',4)->count()>0) disabled @endif class="btn btn-sm btn-info">Hantar laporan</button>
 
 {!! Form::close() !!}
-{{-- <a href="#" class="btn btn-sm btn-info">Hantar Laporan</a> --}}
 
 @endsection
 
@@ -43,6 +41,7 @@
                                 <th>Penemuan Audit</th>
                                 <th>Tindakan Auditi</th>
                                 <th>Pegawai Bertanggungjawab</th>
+                                <th>Status</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -157,6 +156,10 @@
                 {
                     data: 'pegawai',
                     name: 'pegawai'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'tindakan',

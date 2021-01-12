@@ -207,13 +207,10 @@
                                 if (response.length < 1) {
                                     alert('Tiada auditee yang telah didaftarkan kepada organisasi yang dipilih. Sila daftarkan Auditee kepada organisasi');
                                     $(this).val(0);
-                                    // $(pegawaidiv).addClass('hidden');
                                 }else{
                                     $.each(response, function (indexInArray, value) {
                                         $(pegawai).append('<option value="'+value.id +'">'+value.name+'</option>')
                                     });
-
-                                    // $(pegawaidiv).removeClass('hidden');
                                 }
 
                             }

@@ -40,7 +40,16 @@ class PenemuanController extends Controller
             })
             ->addColumn('penemuanaudit', function($penemuan){
                 $penemuanaudit = $penemuan->penemuan;
-                return $penemuanaudit;
+                $stringlength = 100;
+                if (strlen($penemuan->penemuan) > $stringlength)
+                {
+                    $string = wordwrap($penemuan->penemuan, 100);
+                    $i = strpos($string, "\n");
+                    if ($i) {
+                        $string = substr($string, 0, $i);
+                    }
+                }
+                return $string;
             })
             ->addColumn('tindakanauditi', function($penemuan){
                 $tindakanauditi = '';
@@ -57,6 +66,10 @@ class PenemuanController extends Controller
                     $pegawai.='<br>';
                 }
                 return $pegawai;
+            })
+            ->addColumn('status', function($penemuan){
+
+                return $penemuan->progress->name;
             })
             ->addColumn('tindakan', function($penemuan){
                 $buttons='';
@@ -192,7 +205,7 @@ class PenemuanController extends Controller
         $images = $dom->getElementsByTagName('img');
 
         $penemuan->perenggan = $request->perenggan;
-        $penemuan->progress_id = 1;
+        $penemuan->progress_id = 8;
         $penemuan->save();
 
         foreach($penemuan->attachments as $attachment){
