@@ -187,6 +187,7 @@ class PenemuanController extends Controller
     {
         $dom = new \DomDocument();
         $rekodPenemuan = $request->penemuan;
+        libxml_use_internal_errors(true);
         $dom->loadHtml($rekodPenemuan, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName('img');
 
@@ -230,9 +231,9 @@ class PenemuanController extends Controller
         }
 
         foreach ($request->organisasi_id as $key => $organisasi) {
-            $auditi = User::where('organisasi_id',$organisasi)->role('auditee')->first();
+            $auditi = User::where('id',$request->auditi[$key])->role('auditee')->first();
             $auditipenemuan = new Auditipenemuan;
-            $auditipenemuan->auditi = $request->user_id[$key];
+            $auditipenemuan->auditi = $request->auditi[$key];
             $auditipenemuan->laporan_id = $penemuan->laporan_id;
             $auditipenemuan->penemuan_id = $penemuan->id;
             $auditipenemuan->organisasi_id = $organisasi;

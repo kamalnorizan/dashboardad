@@ -42,28 +42,28 @@
                             <td>Status</td>
                             <td>Tindakan</td>
                         </tr>
-                        @foreach ($kcad as $key=>$laporan)
+                        @foreach ($kcad as $key=>$penemuan)
                         <tr>
                             <td>
                                 {{(($kcad->currentPage()-1)*20)+$key+1}}
                             </td>
                             <td>
-                                {{$laporan->perenggan}}
+                                {{$penemuan->perenggan}}
                             </td>
                             <td>
-                                {!!$laporan->penemuan!!}
+                                {!!$penemuan->penemuan!!}
                             </td>
                             <td>
-                                @foreach ($laporan->audities as $auditi)
+                                @foreach ($penemuan->audities as $auditi)
                                     - {{$auditi->auditiuser->name}} <br>
                                 @endforeach
                             </td>
                             <td>
-                                {{$laporan->progress->name}}
+                                {{$penemuan->progress->name}}
                             </td>
 
                             <td>
-                                 <a class="btn btn-primary btn-sm" @if($laporan->progress->name=='Gugur') disabled @else href='{{route('kcad.show',['penemuan'=>$laporan->id])}}' @endif  ><i class="fa fa-plus"></i> Semakan</a>
+                                 <a class="btn btn-primary btn-sm" @if($penemuan->progress->name=='Gugur') disabled @else href='{{route('kcad.show',['penemuan'=>$penemuan->id])}}' @endif  ><i class="fa fa-plus"></i> Semakan</a>
                             </td>
                         </tr>
                         @endforeach
