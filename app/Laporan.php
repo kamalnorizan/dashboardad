@@ -33,4 +33,9 @@ class Laporan extends Model  implements Auditable
         return $this->hasMany('App\Penemuan', 'laporan_id', 'id');
     }
 
+    public function auditipenemuan()
+    {
+        return $this->hasMany('App\Auditipenemuan', 'laporan_id', 'id');
+    }
+
 }

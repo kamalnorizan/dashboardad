@@ -27,31 +27,31 @@
                             <td>Status</td>
                             <td>Tindakan</td>
                         </tr>
-                        @foreach ($maklumbalas as $key=>$laporan)
+                        @foreach ($laporan as $key=>$laporan_item)
                         <tr>
                             <td>
-                                {{(($maklumbalas->currentPage()-1)*20)+$key+1}}
+                                {{(($laporan->currentPage()-1)*20)+$key+1}}
                             </td>
                             <td>
-                                {{$laporan->tajuk}}
+                                {{$laporan_item->tajuk}}
                             </td>
                             <td>
-                                {{$laporan->tarikh}}
+                                {{$laporan_item->tarikh}}
                             </td>
                             <td>
-                                {{$laporan->kategoriaudit->name}}
+                                {{$laporan_item->kategoriaudit->name}}
                             </td>
                             <td>
-                                {{-- {{$laporan->progress->name}} --}}
+                                {{-- {{$laporan_item->progress->name}} --}}
                             </td>
 
                             <td>
-                                 <a href="{{route('maklumbalas.create',['laporan'=>$laporan->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Penemuan</a>
+                                 <a href="{{route('maklumbalas.create',['laporan'=>$laporan_item->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Penemuan</a>
                             </td>
                         </tr>
                         @endforeach
                     </table>
-                    {{$maklumbalas->links()}}
+                    {{$laporan->links()}}
                 </div>
             </div>
         </div>

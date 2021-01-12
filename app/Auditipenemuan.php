@@ -30,4 +30,14 @@ class Auditipenemuan extends Model
     {
         return $this->belongsTo('App\Organisasi', 'organisasi_id', 'id');
     }
+
+    public function progress()
+    {
+        return $this->belongsTo('App\Progress', 'progress_id', 'id');
+    }
+
+    public function maklumbalas()
+    {
+        return $this->hasMany('App\Maklumbalas', 'auditipenemuan_id', 'id');
+    }
 }

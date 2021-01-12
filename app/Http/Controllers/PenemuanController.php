@@ -39,7 +39,7 @@ class PenemuanController extends Controller
                 return $perenggan;
             })
             ->addColumn('penemuanaudit', function($penemuan){
-                $penemuanaudit = $penemuan->penemuan;
+                $string = $penemuan->penemuan;
                 $stringlength = 100;
                 if (strlen($penemuan->penemuan) > $stringlength)
                 {

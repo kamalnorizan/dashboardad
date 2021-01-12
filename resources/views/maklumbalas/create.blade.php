@@ -9,6 +9,7 @@
         height: auto !important;
         min-height: 100px;
     }
+
 </style>
 @endsection
 
@@ -28,84 +29,59 @@
                 <div class="ibox-content">
                     <table class="table">
                         <tr>
-                            <th>Bil</th>
-                            <th>Perenggan</th>
+                            <th class="text-center">Bil</th>
+                            {{-- <th>Perenggan</th> --}}
                             <th>Penemuan Audit</th>
-                            <th>Tindakan Auditi</th>
-                            <td>Status</td>
-                            <td>Tindakan</td>
+                            <th  class="text-center">Status</th>
+                            <th  class="text-center">Status Tindakan</th>
+                            <th  class="text-center">Tindakan</th>
                         </tr>
-                        @foreach ($maklumbalas as $key=>$laporan)
+                        @foreach ($laporan->auditipenemuan as $key=>$auditipenemuan)
                         <tr>
+                            <td align="center">
+                                {{ $key+1 }}
+                            </td>
+                            {{-- <td>
+                                {{$auditipenemuan->penemuan->perenggan}}
+                            </td> --}}
                             <td>
-                                {{(($maklumbalas->currentPage()-1)*20)+$key+1}}
+                                @php
+                                $string = $auditipenemuan->penemuan->penemuan;
+                                $stringlength = 100;
+                                if (strlen($auditipenemuan->penemuan->penemuan) > $stringlength)
+                                {
+                                    $string = wordwrap($auditipenemuan->penemuan->penemuan, 100);
+                                    $i = strpos($string, "\n");
+                                    if ($i) {
+                                        $string = substr($string, 0, $i);
+                                    }
+                                }
+                                @endphp
+                                {!! $string !!}...
                             </td>
-                            <td>
-                                {{$laporan->perenggan}}
+                            <td align="center">
+                                {{$auditipenemuan->progress->name}}
                             </td>
-                            <td>
-                                {{$laporan->tajuk}}
-                            </td>
-                            {{-- <td> auditi yang bertanggungjawab --}}
-                                {{-- {{$laporan->kategoriaudit->name}} --}}
-                            </td>
-                            <td>
-                                {{-- {{$penemuan->progress->name}} --}}
-                            </td>
+                            <td align="center">
+                                @if ($auditipenemuan->status_jawatankuasa == 0 || $auditipenemuan->status_jawatankuasa == 2)
+                                    <i class="fa fa-exclamation-circle fa-2x text-warning"></i>
+                                @else
+                                    <i class="fa fa-check-circle fa-2x text-success"></i>
 
-                            <td>
-
-                                 <a class="btn btn-primary btn-sm" data-toggle="modal" href='#tambahpenemuan-modal'<i class="fa fa-plus"></i> Semakan</a>
+                                @endif
+                            </td>
+                            <td align="center">
+                                 <a class="btn btn-primary btn-sm" data-toggle="modal" href='{{route('maklumbalas.edit',['auditipenemuan'=>$auditipenemuan->id])}}'<i class="fa fa-plus"></i> Semakan</a>
                             </td>
                         </tr>
                         @endforeach
                     </table>
-                    {{$maklumbalas->links()}}
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="tambahpenemuan-modal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Semakan Ketua Audit </h4>
-            </div>
-            {{-- {!! Form::open(['method' => 'POST', 'route' => 'laporan.store']) !!} --}}
-            {!! Form::model($maklumbalas, ['route' => ['maklumbalas.store', $laporan->id], 'method' => 'POST']) !!}
-            <div class="modal-body">
-                {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group{{ $errors->has('perenggan') ? ' has-error' : '' }}">
-                            {!! Form::label('perenggan', 'Perenggan Penemuan') !!}
-                            {!! Form::text('perenggan', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                            <small class="text-danger">{{ $errors->first('perenggan') }}</small>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="form-group{{ $errors->has('penemuan') ? ' has-error' : '' }}">
-                    {!! Form::textarea('penemuan','Penemuan', ['class' => 'form-control', 'required' => 'required']) !!}
-                    <small class="text-danger">{{ $errors->first('penemuan') }}</small>
-                </div>
-
-                <div class="form-group{{ $errors->has('penemuan') ? ' has-error' : '' }}">
-                    {!! Form::textarea('penemuan', 'Maklumbalas Auditi', ['class' => 'form-control summernote', 'required' => 'required']) !!}
-                    <small class="text-danger">{{ $errors->first('penemuan') }}</small>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            {!! Form::close() !!}
-        </div>
-    </div>
-</div>
 
 
 @endsection

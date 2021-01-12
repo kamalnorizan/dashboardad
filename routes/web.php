@@ -78,6 +78,7 @@ Route::get('/jawatankuasa/create/{laporan}', 'JawatankuasaController@create')->n
 Route::post('/jawatankuasa', 'JawatankuasaController@store')->name('jawatankuasa.store');
 
 // KCAD
+Route::post('/kcad/kcadhantarjawatankuasa', 'UlasanpenemuanController@kcadhantarjawatankuasa')->name('kcad.kcadhantarjawatankuasa');
 Route::post('/kcad/kcadhantarstatus', 'UlasanpenemuanController@kcadhantarstatus')->name('kcad.kcadhantarstatus');
 Route::resource('kcad', 'UlasanpenemuanController')->except(['show'])->middleware('auth');
 Route::post('/kcad/semakan/update', 'UlasanpenemuanController@semakanupdate')->name('kcad.semakanupdate')->middleware('auth');
@@ -86,6 +87,7 @@ Route::get('/kcad/create/{laporan}', 'UlasanpenemuanController@create')->name('k
 Route::post('/kcad', 'UlasanpenemuanController@store')->name('kcad.store');
 
 // maklumbalas
-Route::resource('maklumbalas', 'MaklumbalasController')->middleware('auth');
+Route::get('/maklumbalas', 'MaklumbalasController@index')->name('maklumbalas.index')->middleware('auth');
 Route::get('/maklumbalas/create/{laporan}', 'MaklumbalasController@create')->name('maklumbalas.create');
+Route::get('/maklumbalas/{auditipenemuan}/edit', 'MaklumbalasController@edit')->name('maklumbalas.edit');
 Route::post('/maklumbalas', 'MaklumbalasController@store')->name('maklumbalas.store');

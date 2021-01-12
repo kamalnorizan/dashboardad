@@ -71,7 +71,6 @@ class UlasanpenemuanController extends Controller
      */
     public function show(Penemuan $penemuan)
     {
-
         $statusOpt = Progress::whereIn('name',['Lulus','Pindaan','Gugur'])->pluck('name','id');
         return view('kcad.semakan', compact('penemuan','statusOpt'));
     }
@@ -80,6 +79,9 @@ class UlasanpenemuanController extends Controller
     {
         $penemuan = Penemuan::find($request->penemuan_id);
         $penemuan->progress_id = $request->status;
+        if($request->status=='5'){
+            $penemuan->status_jawatankuasa='4';
+        }
         $penemuan->save();
 
         $ulasanpenemuan = new Ulasanpenemuan;
@@ -101,6 +103,15 @@ class UlasanpenemuanController extends Controller
         $laporan->status = 'auditor';
         $laporan->save();
         flash('Laporan telah berjaya dihantar kembali kepada Auditor')->success()->important();
+        return redirect(route('kcad.index'));
+    }
+
+    public function kcadhantarjawatankuasa(Request $request)
+    {
+        $laporan = Laporan::find($request->laporan_id);
+        $laporan->status = 'jawatankuasa';
+        $laporan->save();
+        flash('Laporan telah berjaya dihantar kembali kepada Auditi')->success()->important();
         return redirect(route('kcad.index'));
     }
 }

@@ -13,15 +13,18 @@
 @endsection
 
 @section('action')
-{!! Form::open(['method' => 'POST', 'route' => 'kcad.kcadhantarstatus']) !!}
+<button type="button" @if ($kcad->whereIn('progress_id',['1','5', '8'])->count()>0) disabled @else onClick="$('#form_kcadhantarstatus').submit();" @endif class="btn btn-primary">Hantar</button>
 
+<button type="button" @if ($kcad->whereIn('progress_id',['0','1','2','4','6','7','8'])->count()>0) disabled @else onClick="$('#form_kcadhantarjawatankuasa').submit();" @endif class="btn btn-warning">Hantar Jawatankuasa</button>
+
+{!! Form::open(['method' => 'POST', 'route' => 'kcad.kcadhantarstatus', 'id'=>'form_kcadhantarstatus']) !!}
     {!! Form::hidden('laporan_id', $kcad->first()->laporan_id, ['id'=>'laporan_id']) !!}
-
-        <button type="submit" @if ($kcad->where('progress_id',1)->count()+$kcad->where('progress_id',8)->count()>0 && $kcad->where('progress_id',1)->count()) disabled @endif class="btn btn-primary">Hantar</button>
-
 {!! Form::close() !!}
-{{-- <a href="#" @if ($kcad->where('progress_id',1)->count()+$kcad->where('progress_id',8)->count()>0 && $kcad->where('progress_id',1)->count()) disabled @endif class="btn btn-primary">Hantar</a> --}}
-{{-- {{$kcad->where('progress_id',1)->count()+$kcad->where('progress_id',8)->count()}} --}}
+
+{!! Form::open(['method' => 'POST', 'route' => 'kcad.kcadhantarjawatankuasa', 'id'=>'form_kcadhantarjawatankuasa']) !!}
+    {!! Form::hidden('laporan_id', $kcad->first()->laporan_id, ['id'=>'laporan_id']) !!}
+{!! Form::close() !!}
+
 @endsection
 
 @section('content')
@@ -52,6 +55,7 @@
                             </td>
                             <td>
                                 @php
+                                    $string=$penemuan->penemuan;
                                     $stringlength = 100;
                                     if (strlen($penemuan->penemuan) > $stringlength)
                                     {
