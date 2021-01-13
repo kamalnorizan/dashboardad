@@ -62,16 +62,24 @@
                                         Tindakan
                                     </td>
                                 </tr>
-                                @foreach ($maklumbalasterkini->attachments as $attachment)
-                                <tr>
-                                    <td>
-                                        <a class="btn btn-link" href="{{ asset($attachment->url) }}" target="blank">{{$attachment->title}}
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-block btn-danger" href="{{ asset($attachment->url) }}" target="blank">Padam
-                                    </td>
-                                </tr>
-                                @endforeach
+                                @if (!empty($maklumbalasterkini->attachments))
+                                    @foreach ($maklumbalasterkini->attachments as $attachment)
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-link" href="{{ asset($attachment->url) }}" target="blank">{{$attachment->title}}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-block btn-danger" href="{{ asset($attachment->url) }}" target="blank">Padam
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                            <span style="font-size: 16px; color:grey">Tiada Lampiran</span>
+                                        </td>
+                                    </tr>
+                                @endif
                             </table>
                             </a> <br>
                         <div class="form-group{{ $errors->has('filesokongan[]') ? ' has-error' : '' }}">
