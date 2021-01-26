@@ -89,9 +89,10 @@ Route::get('/penemuan/getpegawai/{organisasi}', 'PenemuanController@getpegawai')
 // Route::post('post-summernote-image-upload','PenemuanController@store')->name('penemuan.store');
 
 // Jawatankuasa
-Route::resource('jawatankuasa', 'JawatankuasaController')->middleware('auth');
 Route::get('/jawatankuasa/create/{laporan}', 'JawatankuasaController@create')->name('jawatankuasa.create');
 Route::post('/jawatankuasa', 'JawatankuasaController@store')->name('jawatankuasa.store');
+Route::get('/jawatankuasa/{auditipenemuan}/show', 'JawatankuasaController@show')->name('jawatankuasa.show');
+Route::resource('jawatankuasa', 'JawatankuasaController')->middleware('auth')->except(['show','create']);
 
 // KCAD
 Route::post('/kcad/kcadhantarjawatankuasa', 'UlasanpenemuanController@kcadhantarjawatankuasa')->name('kcad.kcadhantarjawatankuasa');

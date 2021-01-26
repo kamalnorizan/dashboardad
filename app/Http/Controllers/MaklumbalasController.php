@@ -26,7 +26,7 @@ class MaklumbalasController extends Controller
             $que->where('progress_id','3');
         }])->where('status','jawatankuasa')->paginate(20);
 
-        // dd($laporan);
+
         return view('maklumbalas.index',compact('laporan'));
     }
 

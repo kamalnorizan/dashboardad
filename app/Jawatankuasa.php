@@ -16,4 +16,9 @@ class Jawatankuasa extends Model
 
     protected $guarded = ['id'];
 
+    public function laporan()
+    {
+        return $this->belongsTo('App\Laporan', 'laporan_id', 'id');
+    }
+
 }

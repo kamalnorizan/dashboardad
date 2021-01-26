@@ -21,8 +21,8 @@ class JawatankuasaController extends Controller
     public function index()
     {
 
-        $jawatankuasa = Laporan::orderBy('id','desc')->paginate(20);
-          return view('jawatankuasa.index',compact('jawatankuasa'));
+        $jawatankuasa = Jawatankuasa::with('laporan.auditipenemuan')->where('user_id',Auth::user()->id)->paginate(20);
+        return view('jawatankuasa.index',compact('jawatankuasa'));
     }
 
     /**
@@ -33,9 +33,10 @@ class JawatankuasaController extends Controller
     public function create(Laporan $laporan)
     {
         $findings = $laporan->findings;
-        $jawatankuasa= Laporan::orderBy('id','desc')->paginate(20);
+        $auditipenemuan = $laporan->auditipenemuan;
+        // $jawatankuasa= Laporan::orderBy('id','desc')->paginate(20);
 
-        return view ('jawatankuasa.create' ,compact('laporan','findings','jawatankuasa'));
+        return view ('jawatankuasa.create' ,compact('laporan','findings','auditipenemuan'));
     }
 
     /**
@@ -67,7 +68,7 @@ class JawatankuasaController extends Controller
      * @param  \App\Jawatankuasa  $jawatankuasa
      * @return \Illuminate\Http\Response
      */
-    public function show(Jawatankuasa $jawatankuasa)
+    public function show(Auditipenemuan $auditipenemuan)
     {
         //
     }

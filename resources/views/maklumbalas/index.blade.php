@@ -28,6 +28,7 @@
                             <td>Tindakan</td>
                         </tr>
                         @foreach ($laporan as $key=>$laporan_item)
+                        @if ($laporan_item->auditipenemuan->where('status_hantar','auditi')->count()>0)
                         <tr>
                             <td>
                                 {{(($laporan->currentPage()-1)*20)+$key+1}}
@@ -49,6 +50,7 @@
                                  <a href="{{route('maklumbalas.create',['laporan'=>$laporan_item->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Penemuan</a>
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                     </table>
                     {{$laporan->links()}}

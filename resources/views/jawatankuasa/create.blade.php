@@ -29,52 +29,69 @@
                     <table class="table">
                         <tr>
                             <td>Bil</td>
-                            <td>Tajuk Laporan</td>
-                            <td>Tarikh Laporan</td>
-                            <td>Kategori Laporan</td>
+                            <td>Perenggan</td>
+                            <td>Penemuan</td>
+                            <td>Auditi</td>
+                            <td>Organisasi</td>
                             <td>Status</td>
                             <td>Tindakan</td>
                         </tr>
-                        @foreach ($jawatankuasa as $key=>$laporan)
+                        @foreach ($auditipenemuan as $key=>$auditip)
                         <tr>
                             <td>
-                                {{(($jawatankuasa->currentPage()-1)*20)+$key+1}}
+                                {{-- {{(($auditipenemuan->currentPage()-1)*20)+$key+1}} --}}
+                                {{$key+1}}
                             </td>
                             <td>
-                                {{$laporan->tajuk}}
+                                {{$auditip->penemuan->perenggan}}
                             </td>
                             <td>
-                                {{$laporan->tarikh}}
+                                @php
+                                    $string=$auditip->penemuan->penemuan;
+                                    $stringlength = 100;
+                                    if (strlen($auditip->penemuan->penemuan) > $stringlength)
+                                    {
+                                        $string = wordwrap($auditip->penemuan->penemuan, 100);
+                                        $i = strpos($string, "\n");
+                                        if ($i) {
+                                            $string = substr($string, 0, $i);
+                                        }
+                                    }
+                                @endphp
+                                {!! $string !!}
                             </td>
                             <td>
-                                {{$laporan->kategoriaudit->name}}
+                                {{$auditip->auditiuser->name}}
                             </td>
                             <td>
-                                {{-- {{$laporan->progress->name}} --}}
+                                {{$auditip->auditiuser->organisasi->name}}
+                            </td>
+                            <td>
+                                {{$auditip->progress->name}}
                             </td>
 
                             <td>
                                  {{-- <a href="{{route('jawatankuasa.edit',['laporan'=>$laporan->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> --}}
 
-                                 <a class="btn btn-primary btn-sm" data-toggle="modal" href='#tambahpenemuan-modal'<i class="fa fa-plus"></i> Semakan</a>
+                                 <a class="btn btn-primary btn-sm" href="{{route('jawatankuasa.show',['auditipenemuan'=>$auditip->id])}}"></i> Semakan</a>
                             </td>
                         </tr>
                         @endforeach
                     </table>
-                    {{$jawatankuasa->links()}}
+                    {{-- {{$jawatankuasa->links()}} --}}
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="tambahpenemuan-modal">
+{{-- <div class="modal fade" id="tambahpenemuan-modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Semakan Jawatankuasa </h4>
             </div>
-            {{-- {!! Form::open(['method' => 'POST', 'route' => 'laporan.store']) !!} --}}
+             {!! Form::open(['method' => 'POST', 'route' => 'laporan.store']) !!}
             {!! Form::model($jawatankuasa, ['route' => ['jawatankuasa.store', $laporan->id], 'method' => 'POST']) !!}
             <div class="modal-body">
                 {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
@@ -123,7 +140,7 @@
             {!! Form::close() !!}
         </div>
     </div>
-</div>
+</div> --}}
 
 
 @endsection

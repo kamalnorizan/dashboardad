@@ -75,6 +75,7 @@
                             </td>
                             <td align="center">
                                  <a class="btn btn-primary btn-sm" data-toggle="modal" href='{{route('maklumbalas.edit',['auditipenemuan'=>$auditipenemuan->id])}}'<i class="fa fa-plus"></i> Semakan</a>
+
                             </td>
                         </tr>
                         @endforeach

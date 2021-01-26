@@ -27,28 +27,30 @@
                             <td>Status</td>
                             <td>Tindakan</td>
                         </tr>
-                        @foreach ($jawatankuasa as $key=>$laporan)
-                        <tr>
-                            <td>
-                                {{(($jawatankuasa->currentPage()-1)*20)+$key+1}}
-                            </td>
-                            <td>
-                                {{$laporan->tajuk}}
-                            </td>
-                            <td>
-                                {{$laporan->tarikh}}
-                            </td>
-                            <td>
-                                {{$laporan->kategoriaudit->name}}
-                            </td>
-                            <td>
-                                {{-- {{$laporan->progress->name}} --}}
-                            </td>
+                        @foreach ($jawatankuasa as $key=>$ajk)
+                            @if($ajk->laporan->auditipenemuan->where('status_hantar','auditi')->count() == 0)
+                                <tr>
+                                    <td>
+                                        {{(($jawatankuasa->currentPage()-1)*20)+$key+1}}
+                                    </td>
+                                    <td>
+                                        {{$ajk->laporan->tajuk}}
+                                    </td>
+                                    <td>
+                                        {{$ajk->laporan->tarikh}}
+                                    </td>
+                                    <td>
+                                        {{$ajk->laporan->kategoriaudit->name}}
+                                    </td>
+                                    <td>
+                                        {{-- {{$ajk->progress->name}} --}}
+                                    </td>
 
-                            <td>
-                                 <a href="{{route('jawatankuasa.create',['laporan'=>$laporan->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Penemuan</a>
-                            </td>
-                        </tr>
+                                    <td>
+                                        <a href="{{route('jawatankuasa.create',['laporan'=>$ajk->laporan->id])}}" class="btn btn-sm btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Penemuan</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </table>
                     {{$jawatankuasa->links()}}
