@@ -40,4 +40,9 @@ class Auditipenemuan extends Model
     {
         return $this->hasMany('App\Maklumbalas', 'auditipenemuan_id', 'id');
     }
+
+    public function laporan()
+    {
+        return $this->belongsTo('App\Laporan', 'laporan_id', 'id');
+    }
 }

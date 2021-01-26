@@ -20,4 +20,14 @@ class Maklumbalas extends Model
     {
         return $this->morphMany('App\Attachment', 'attachable');
     }
+
+    public function progres()
+    {
+        return $this->belongsTo('App\Progress', 'progress_id', 'id');
+    }
+
+    public function auditipenemuan()
+    {
+        return $this->belongsTo('App\Auditipenemuan', 'auditipenemuan_id', 'id');
+    }
 }

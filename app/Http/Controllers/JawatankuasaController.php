@@ -8,6 +8,8 @@ use App\Kategoriaudit;
 use App\User;
 use App\Progress;
 use App\Penemuan;
+use App\Auditipenemuan;
+use App\Maklumbalas;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -47,19 +49,21 @@ class JawatankuasaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $maklumbalas= Maklumbalas::find($request->maklumbalas_id);
+        $maklumbalas->progress_id=$request->status;
+        $maklumbalas->ulasan=$request->ulasan;
+        $jawatankuasa=$maklumbalas->auditipenemuan->laporan->jawatankuasa->where('user_id',Auth::user()->id)->first();
+        $maklumbalas->jawatankuasa_id=$jawatankuasa->id;
+        $maklumbalas->save();
 
-            'ulasan'         => 'required',
-            'auditor'     => 'required',
-            'progress_id'  => 'required',
-            'kcad'     => 'required',
-            'penemuan_id'     => 'required',
-         ]);
+        $auditipenemuan = $maklumbalas->auditipenemuan;
+        $auditipenemuan->progress_id = $request->status;
+        $auditipenemuan->status_jawatankuasa = 2;
+        $auditipenemuan->save();
 
-        Ulasanjawatankuasa::create($request->all());
-
-        flash('Semakan dan Ulasan Jawatankuasa telah berjaya direkodkan')->success()->important();
-        return redirect('/jawatankuasa');
+        $laporan_id = $maklumbalas->auditipenemuan->laporan_id;
+        flash('Telah berjaya di rekodkan')->success()->important();
+        return redirect('/jawatankuasa/create/'.$laporan_id);
     }
 
     /**
@@ -70,7 +74,8 @@ class JawatankuasaController extends Controller
      */
     public function show(Auditipenemuan $auditipenemuan)
     {
-        //
+        $statusOpt = Progress::whereIn('id',['7','9','10'])->pluck('name','id');
+        return view('jawatankuasa.show',compact('auditipenemuan','statusOpt'));
     }
 
     /**
