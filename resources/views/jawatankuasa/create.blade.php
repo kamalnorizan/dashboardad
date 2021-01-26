@@ -14,7 +14,14 @@
 
 @section('action')
 
-
+{!! Form::open(['method' => 'POST', 'route' => 'jawatankuasa.jawatankuasahantarauditi']) !!}
+    {!! Form::hidden('laporan_id', 'value', ['id'=>'laporan_id']) !!}
+    @if ($auditipenemuan->where('status_jawatankuasa',1)->count()>0)
+    {!! Form::submit("Hantar", ['class' => 'btn btn-success', 'disabled'=>'true']) !!}
+    @else
+        {!! Form::submit("Hantar", ['class' => 'btn btn-success']) !!}
+    @endif
+{!! Form::close() !!}
 @endsection
 
 @section('content')
@@ -34,6 +41,7 @@
                             <td>Auditi</td>
                             <td>Organisasi</td>
                             <td>Status</td>
+                            <td>Status Ulasan</td>
                             <td>Tindakan</td>
                         </tr>
                         @foreach ($auditipenemuan as $key=>$auditip)
@@ -68,6 +76,13 @@
                             </td>
                             <td>
                                 {{$auditip->progress->name}}
+                            </td>
+                            <td>
+                                @if ($auditip->maklumbalas->where('ulasan','')->count()>0)
+                                    <i class="fa fa-info-circle text-warning fa-2x"></i>
+                                @else
+                                    <i class="fa fa-check text-success fa-2x"></i>
+                                @endif
                             </td>
 
                             <td>

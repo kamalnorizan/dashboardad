@@ -90,8 +90,9 @@ Route::get('/penemuan/getpegawai/{organisasi}', 'PenemuanController@getpegawai')
 
 // Jawatankuasa
 Route::get('/jawatankuasa/create/{laporan}', 'JawatankuasaController@create')->name('jawatankuasa.create');
-Route::post('/jawatankuasa', 'JawatankuasaController@store')->name('jawatankuasa.store');
 Route::get('/jawatankuasa/{auditipenemuan}/show', 'JawatankuasaController@show')->name('jawatankuasa.show');
+Route::post('/jawatankuasa', 'JawatankuasaController@store')->name('jawatankuasa.store');
+Route::post('/jawatankuasa/jawatankuasahantarauditi', 'JawatankuasaController@jawatankuasahantarauditi')->name('jawatankuasa.jawatankuasahantarauditi');
 Route::resource('jawatankuasa', 'JawatankuasaController')->middleware('auth')->except(['show','create']);
 
 // KCAD
