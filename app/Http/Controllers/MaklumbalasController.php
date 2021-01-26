@@ -112,53 +112,22 @@ class MaklumbalasController extends Controller
         $auditipenemuan->status_jawatankuasa = 1;
         $auditipenemuan->save();
         flash('Maklumbalas telah berjaya disimpan.')->success()->important();
-        return redirect('/maklumbalas');
+        return redirect('/maklumbalas/create/'.$auditipenemuan->laporan_id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Maklumbalas  $maklumbalas
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Maklumbalas $maklumbalas)
+    public function auditihantarjawatankuasa(Request $request)
     {
-        //
-    }
+        $laporan = Laporan::with(['auditipenemuan'=>function($q){
+            $q->where('status_hantar','auditi')->where('auditi',Auth::user()->id);
+        }],['findings'=>function($que){
+            $que->where('progress_id','3');
+        }])->where('status','jawatankuasa')->where('id',$request->laporan_id)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Maklumbalas  $maklumbalas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Auditipenemuan $auditipenemuan)
-    {
-        $penemuan = $auditipenemuan->penemuan;
-        $maklumbalasterkini = $auditipenemuan->maklumbalas->sortByDesc('id')->first();
-        return view('maklumbalas.edit',compact('penemuan','auditipenemuan','maklumbalasterkini'));
-    }
+        foreach ($laporan->auditipenemuan as $key => $auditipenemuan) {
+            $auditipenemuan->status_hantar = 'jawatankuasa';
+            $auditipenemuan->save();
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Maklumbalas  $maklumbalas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Maklumbalas $maklumbalas)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Maklumbalas  $maklumbalas
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Maklumbalas $maklumbalas)
-    {
-        //
+        return redirect('maklumbalas');
     }
 }

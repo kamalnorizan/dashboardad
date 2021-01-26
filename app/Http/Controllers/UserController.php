@@ -65,7 +65,9 @@ class UserController extends Controller
             'organisasi_id' => 'required',
         ]);
 
-        $password = Str::random(8);
+        // $password = Str::random(8);
+        $password = 'Peladang1$';
+
         $user = new User();
         $user->name = $request->name;
         $user->ic = $request->ic;
@@ -77,10 +79,11 @@ class UserController extends Controller
         $user->save();
 
         $user->assignRole($request->role);
-
-        Mail::send('users.mail', compact('user','password'), function ($message) {
-            $message->from('john@johndoe.com', 'John Doe');
-            $message->to('john@johndoe.com', 'John Doe');
+        $emailTo =  $request->email;
+        $name =   $request->name;
+        Mail::send('users.mail', compact('user','password'), function ($message) use ($emailTo, $name) {
+            $message->from('dashboardaudit0@gmail.com', 'Admin');
+            $message->to($emailTo, $name);
             $message->subject('Pendaftaran sistem DashboardAd');
             $message->priority(3);
         });

@@ -14,8 +14,11 @@
 @endsection
 
 @section('action')
-
-
+{{-- <a href="#" class="btn btn-success btn-sm">Hantar</a> --}}
+{!! Form::open(['method' => 'POST', 'route' => 'maklumbalas.auditihantarjawatankuasa']) !!}
+    {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
+    {!! Form::submit("Hantar", ['class' => 'btn btn-success  btn-sm']) !!}
+{!! Form::close() !!}
 @endsection
 
 @section('content')

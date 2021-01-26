@@ -244,6 +244,4 @@ class LaporanController extends Controller
         }
         return $org_opts;
     }
-
-    
 }
