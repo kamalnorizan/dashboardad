@@ -51,10 +51,19 @@ class MaklumbalasController extends Controller
     {
         $penemuan = $auditipenemuan->penemuan;
         $maklumbalasterkini = $auditipenemuan->maklumbalas->sortByDesc('id')->first();
-        if($maklumbalasterkini->ulasan!=''){
-            $maklumbalasterkini = '';
+        $createmaklumbalas = true;
+        if($maklumbalasterkini){
+            if($maklumbalasterkini->progress_id=='10'){
+                $createmaklumbalas = false;
+            }elseif($maklumbalasterkini->ulasan!=''){
+                $maklumbalasterkini = '';
+                $createmaklumbalas = true;
+            }else{
+                $createmaklumbalas = false;
+            }
         }
-        return view('maklumbalas.edit',compact('penemuan','auditipenemuan','maklumbalasterkini'));
+
+        return view('maklumbalas.edit',compact('penemuan','auditipenemuan','maklumbalasterkini','createmaklumbalas'));
     }
 
     /**

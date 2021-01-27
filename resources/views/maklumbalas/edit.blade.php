@@ -33,6 +33,7 @@
             </div>
         </div>
     </div>
+    @if ($auditipenemuan->maklumbalas->first())
     <div class="row">
         <div class="col-md-12">
             <div class="ibox float-e-margins">
@@ -84,7 +85,9 @@
             </div>
         </div>
     </div>
-    @if ($auditipenemuan->maklumbalas->first()->progress_id!='10')
+    @endif
+    {{-- @if ($auditipenemuan->maklumbalas->first()->progress_id!='10') --}}
+    @if ($createmaklumbalas)
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
