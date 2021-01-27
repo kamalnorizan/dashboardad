@@ -40,11 +40,21 @@ class MaklumbalasController extends Controller
         // $findings = $laporan->findings;
         // $maklumbalas = Laporan::orderBy('id','desc')->paginate(20);
         $laporan = Laporan::where('id',$laporan->id)->with(['auditipenemuan'=>function($q){
-            $q->where('status_hantar','auditi')->where('auditi',Auth::user()->id);
+            $q->where('status_hantar','auditi')->where('auditi',Auth::user()->id)->whereIn('status_jawatankuasa',['0','1','2','3']);
         }],['findings'=>function($que){
             $que->where('progress_id','3');
         }])->where('status','jawatankuasa')->first();
         return view('maklumbalas.create',compact('laporan'));
+    }
+
+    public function edit(Auditipenemuan $auditipenemuan)
+    {
+        $penemuan = $auditipenemuan->penemuan;
+        $maklumbalasterkini = $auditipenemuan->maklumbalas->sortByDesc('id')->first();
+        if($maklumbalasterkini->ulasan!=''){
+            $maklumbalasterkini = '';
+        }
+        return view('maklumbalas.edit',compact('penemuan','auditipenemuan','maklumbalasterkini'));
     }
 
     /**
@@ -61,8 +71,11 @@ class MaklumbalasController extends Controller
         $images = $dom->getElementsByTagName('img');
         // dd($request);
         $auditipenemuan = Auditipenemuan::find($request->auditipenemuan_id);
-
-        $maklumbalas = new Maklumbalas;
+        if(isset($request->maklumbalas_id)){
+            $maklumbalas = Maklumbalas::find($request->maklumbalas_id);
+        }else{
+            $maklumbalas = new Maklumbalas;
+        }
         $maklumbalas->auditipenemuan_id = $auditipenemuan->id;
         $maklumbalas->auditi = $auditipenemuan->auditi;
         $maklumbalas->progress_id = $auditipenemuan->progress_id;
@@ -96,7 +109,7 @@ class MaklumbalasController extends Controller
 
                     $attachment = new Attachment;
                     $attachment->title = $name;
-                    $attachment->url = $fileName;
+                    $attachment->url = 'uploads/'.$fileName;
                     $maklumbalas->attachments()->save($attachment);
                 }
             }
@@ -130,4 +143,5 @@ class MaklumbalasController extends Controller
 
         return redirect('maklumbalas');
     }
+
 }

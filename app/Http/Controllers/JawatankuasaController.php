@@ -35,7 +35,7 @@ class JawatankuasaController extends Controller
     public function create(Laporan $laporan)
     {
         $findings = $laporan->findings;
-        $auditipenemuan = $laporan->auditipenemuan;
+        $auditipenemuan = $laporan->auditipenemuan->where('status_jawatankuasa','!=','4');
         // $jawatankuasa= Laporan::orderBy('id','desc')->paginate(20);
 
         return view ('jawatankuasa.create' ,compact('laporan','findings','auditipenemuan'));
@@ -58,7 +58,11 @@ class JawatankuasaController extends Controller
 
         $auditipenemuan = $maklumbalas->auditipenemuan;
         $auditipenemuan->progress_id = $request->status;
-        $auditipenemuan->status_jawatankuasa = 2;
+        if($request->status=='10'){
+            $auditipenemuan->status_jawatankuasa = 3;
+        }else{
+            $auditipenemuan->status_jawatankuasa = 2;
+        }
         $auditipenemuan->save();
 
         $laporan_id = $maklumbalas->auditipenemuan->laporan_id;
@@ -122,5 +126,19 @@ class JawatankuasaController extends Controller
     public function destroy(Jawatankuasa $jawatankuasa)
     {
         //
+    }
+
+    public function jawatankuasahantarauditi(Request $request)
+    {
+        $laporan = Laporan::find($request->laporan_id);
+        // dd($laporan);
+
+        foreach ($laporan->auditipenemuan as $key => $auditipenemuan) {
+            $auditipenemuan->status_hantar = 'auditi';
+            $auditipenemuan->save();
+        }
+
+        flash('Setiap ulasan telah dihantar kepada auditi untuk tindakan')->success()->important();
+        return redirect('/jawatankuasa');
     }
 }

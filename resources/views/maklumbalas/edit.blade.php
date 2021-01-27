@@ -34,6 +34,58 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h3>Rekod Maklumbalas dan Ulasan</h3>
+                </div>
+                <div class="ibox-content">
+                    <div id="vertical-timeline" class="vertical-container dark-timeline">
+                        @foreach ($auditipenemuan->maklumbalas as $maklumbalas)
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+                            <div class="vertical-timeline-content">
+                                <h2>Maklumbalas <div class="badge badge-primary">{{$maklumbalas->progres->name}}</div></h2>
+                                {!!$maklumbalas->maklumbalas!!}
+                                <hr>
+                                @if ($maklumbalas->attachments->first())
+                                <p>Dokumen sokongan seperti lampiran</p>
+                                @endif
+                                <ul>
+                                    @foreach ($maklumbalas->attachments as $item)
+                                    <li><a href="{{route('attachment.getfile',['attachment'=>$item->id])}}">{{$item->title}}</a></li>
+                                    @endforeach
+                                </ul>
+                                <span class="vertical-date">
+                                    <small>{{\Carbon\Carbon::parse($maklumbalas->created_at)->format('d-m-Y')}}</small>
+                                </span>
+                            </div>
+                        </div>
+                            @if ($maklumbalas->ulasan != '')
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon blue-bg">
+                                        <i class="fa fa-check"></i>
+                                    </div>
+                                    <div class="vertical-timeline-content">
+                                        <h2>Ulasan</h2>
+                                        <p>{!!$maklumbalas->ulasan!!}</p>
+
+                                        <span class="vertical-date">
+                                            <small>{{\Carbon\Carbon::parse($maklumbalas->created_at)->format('d-m-Y')}}</small>
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if ($auditipenemuan->maklumbalas->first()->progress_id!='10')
+    <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -53,7 +105,6 @@
                         <hr>
                         <h3>Lampiran</h3>
                         <table class="table">
-
                                 <tr>
                                     <td width="80%">
                                         Dokumen
@@ -66,7 +117,7 @@
                                     @foreach ($maklumbalasterkini->attachments as $attachment)
                                     <tr>
                                         <td>
-                                            <a class="btn btn-link" href="{{ asset($attachment->url) }}" target="blank">{{$attachment->title}}
+                                            <a class="btn btn-link" href="{{route('attachment.getfile',['attachment'=>$attachment->id])}}" target="blank">{{$attachment->title}}
                                         </td>
                                         <td>
                                             <a class="btn btn-block btn-danger" href="{{ asset($attachment->url) }}" target="blank">Padam
@@ -102,6 +153,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
 

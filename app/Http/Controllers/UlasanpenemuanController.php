@@ -80,7 +80,10 @@ class UlasanpenemuanController extends Controller
         $penemuan = Penemuan::find($request->penemuan_id);
         $penemuan->progress_id = $request->status;
         if($request->status=='5'){
-            $penemuan->status_jawatankuasa='4';
+            foreach ($penemuan->auditipenemuan as $key => $auditipenemuan) {
+                $auditipenemuan->status_jawatankuasa='4';
+                $auditipenemuan->save();
+            }
         }
         $penemuan->save();
 

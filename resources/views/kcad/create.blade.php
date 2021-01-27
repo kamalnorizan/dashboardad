@@ -13,7 +13,7 @@
 @endsection
 
 @section('action')
-<button type="button" @if ($kcad->whereIn('progress_id',['1','5', '8'])->count()>0) disabled @else onClick="$('#form_kcadhantarstatus').submit();" @endif class="btn btn-primary">Hantar</button>
+<button type="button" @if ($kcad->whereIn('progress_id',['0','1','2','6','7','8'])->count()>0 || $kcad->whereIn('progress_id',['3','5'])->count()==$kcad->count()) disabled @else onClick="$('#form_kcadhantarstatus').submit();" @endif class="btn btn-primary">Hantar Auditor</button>
 
 <button type="button" @if ($kcad->whereIn('progress_id',['0','1','2','4','6','7','8'])->count()>0) disabled @else onClick="$('#form_kcadhantarjawatankuasa').submit();" @endif class="btn btn-warning">Hantar Jawatankuasa</button>
 

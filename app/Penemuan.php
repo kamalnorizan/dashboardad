@@ -43,4 +43,9 @@ class Penemuan extends Model implements Auditable
     {
         return $this->hasMany('App\Ulasanpenemuan', 'penemuan_id', 'id');
     }
+
+    public function auditipenemuan()
+    {
+        return $this->hasMany('App\Auditipenemuan', 'penemuan_id', 'id');
+    }
 }

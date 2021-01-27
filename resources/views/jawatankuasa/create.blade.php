@@ -15,11 +15,11 @@
 @section('action')
 
 {!! Form::open(['method' => 'POST', 'route' => 'jawatankuasa.jawatankuasahantarauditi']) !!}
-    {!! Form::hidden('laporan_id', 'value', ['id'=>'laporan_id']) !!}
+    {!! Form::hidden('laporan_id', $auditipenemuan->first()->laporan_id, ['id'=>'laporan_id']) !!}
     @if ($auditipenemuan->where('status_jawatankuasa',1)->count()>0)
-    {!! Form::submit("Hantar", ['class' => 'btn btn-success', 'disabled'=>'true']) !!}
+    {!! Form::submit("Hantar Auditi", ['class' => 'btn btn-success', 'disabled'=>'true']) !!}
     @else
-        {!! Form::submit("Hantar", ['class' => 'btn btn-success']) !!}
+        {!! Form::submit("Hantar Auditi", ['class' => 'btn btn-success']) !!}
     @endif
 {!! Form::close() !!}
 @endsection

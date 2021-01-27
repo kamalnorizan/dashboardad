@@ -128,7 +128,7 @@
             ]
         });
 
-        $('#penemuanajax').DataTable({
+        var table=$('#penemuanajax').DataTable({
             processing: true,
             responsive: true,
             serverSide: true,
@@ -165,8 +165,19 @@
                     data: 'tindakan',
                     name: 'tindakan'
                 }
-            ]
+            ],
+            "drawCallback": function(settings) {
+                table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                });
+            }
         });
+
+        table.on( 'order.dt search.dt', function () {
+            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
 
     });
 

@@ -9,6 +9,13 @@
         height: auto !important;
         min-height: 100px;
     }
+
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+    @-webkit-keyframes blink { 50% { visibility: hidden; }}
+    @keyframes blink { 50% { visibility: hidden; }}
 </style>
 @endsection
 
@@ -57,30 +64,34 @@
                                             <h2>Maklumbalas <div class="badge badge-primary">{{$maklumbalas->progres->name}}</div></h2>
                                             {!!$maklumbalas->maklumbalas!!}
                                             <hr>
+                                            @if ($maklumbalas->attachments->first())
+                                            <p>Dokumen sokongan seperti lampiran</p>
+                                            @endif
                                             <ul>
                                                 @foreach ($maklumbalas->attachments as $item)
-                                                {{$item->title}}
+                                                <li><a href="{{route('attachment.getfile',['attachment'=>$item->id])}}">{{$item->title}}</a></li>
                                                 @endforeach
                                             </ul>
-                                            <p>Dokumen sokongan seperti lampiran</p>
                                             <span class="vertical-date">
                                                 <small>{{\Carbon\Carbon::parse($maklumbalas->created_at)->format('d-m-Y')}}</small>
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon blue-bg">
-                                            <i class="fa fa-check"></i>
-                                        </div>
-                                        <div class="vertical-timeline-content">
-                                            <h2>Ulasan</h2>
-                                            {!!$maklumbalas->ulasan!!}
+                                        @if ($maklumbalas->ulasan != '')
+                                            <div class="vertical-timeline-block">
+                                                <div class="vertical-timeline-icon blue-bg">
+                                                    <i class="fa fa-check"></i>
+                                                </div>
+                                                <div class="vertical-timeline-content">
+                                                    <h2>Ulasan</h2>
+                                                    <p>{!!$maklumbalas->ulasan!!}</p>
 
-                                            <span class="vertical-date">
-                                                <small>{{\Carbon\Carbon::parse($maklumbalas->created_at)->format('d-m-Y')}}</small>
-                                            </span>
-                                        </div>
-                                    </div>
+                                                    <span class="vertical-date">
+                                                        <small>{{\Carbon\Carbon::parse($maklumbalas->created_at)->format('d-m-Y')}}</small>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

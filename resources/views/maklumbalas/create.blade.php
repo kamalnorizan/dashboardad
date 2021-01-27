@@ -17,7 +17,7 @@
 {{-- <a href="#" class="btn btn-success btn-sm">Hantar</a> --}}
 {!! Form::open(['method' => 'POST', 'route' => 'maklumbalas.auditihantarjawatankuasa']) !!}
     {!! Form::hidden('laporan_id', $laporan->id, ['id'=>'laporan_id']) !!}
-    {!! Form::submit("Hantar", ['class' => 'btn btn-success  btn-sm']) !!}
+    <button type="submit" class="btn btn-success btn-sm" @if($laporan->auditipenemuan->whereIn('status_jawatankuasa',['0','2'])->count()>0) disabled @endif>Hantar Jawatankuasa</button>
 {!! Form::close() !!}
 @endsection
 

@@ -28,10 +28,11 @@ class PenemuanController extends Controller
     public function ajaxpenemuan(Laporan $laporan)
     {
         $findings = $laporan->findings;
-
+        // $i=0;
         return datatables()->of($findings)
             ->addColumn('no_bil', function($penemuan){
                 $no_bil = $penemuan->id;
+                // $no_bil=$i++;
                 return $no_bil;
             })
             ->addColumn('perenggan', function($penemuan){
@@ -205,7 +206,9 @@ class PenemuanController extends Controller
         $images = $dom->getElementsByTagName('img');
 
         $penemuan->perenggan = $request->perenggan;
-        $penemuan->progress_id = 8;
+        if($penemuan->progress_id!='1'){
+            $penemuan->progress_id = 8;
+        }
         $penemuan->save();
 
         foreach($penemuan->attachments as $attachment){
