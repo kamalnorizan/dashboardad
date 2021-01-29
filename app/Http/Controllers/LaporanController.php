@@ -59,7 +59,6 @@ class LaporanController extends Controller
                     $buttons .= '<a class="btn btn-xs btn-danger" href="'.route('laporan.edit',['laporan'=>$report->id]).'"><i class="fa fa-edit">Edit Laporan</i></a>';
 
                     if($report->status == 'auditor' ){
-
                         $buttons .= '<a class="btn btn-xs btn-primary" href="'.route('penemuan.index',['laporan'=>$report->id]).'"><i class="fa fa-edit"> Tambah Penemuan</i></a> ';
                  }
 
@@ -143,26 +142,30 @@ class LaporanController extends Controller
         $kategori_opts[0] = 'Sila Pilih Kategori';
         // dd($laporan->kategoriaudit->parentkategori);
         if($laporan->kategoriaudit->parentkategori==''){
-            $selectedkategori = $laporan->kategori_id;
+            $selectedkategori = $laporan->kategoriaudit;
             $selectedsubkategori = '';
             $subkategori_opts=[];
         }else{
-            $selectedkategori = $laporan->kategoriaudit->parentkategori->id;
-            $selectedsubkategori = $laporan->kategori_id;
-            $subkategori_opts=$laporan->kategoriaudit->parentkategori->subcats->pluck('name','id');
+            $selectedkategori = $laporan->kategoriaudit->parentkategori;
+            $selectedsubkategori = $laporan->kategoriaudit;
+            $subkategori_opts=$laporan->kategoriaudit->parentkategori->subkategoriad->pluck('name','id');
         }
+        // dd($selectedkategori);
         $org_Opts = Organisasi::pluck('name','id');
         $jawatankuasa_opts = User::role(['auditor','kcad'])->pluck('name','id');
         return view('laporan.edit',compact('laporan','org_Opts','kategori_opts','jawatankuasa_opts','selectedkategori','selectedsubkategori','subkategori_opts'));
+
+        // return view('laporan.edit',compact('laporan','org_Opts','kategori_opts','jawatankuasa_opts',''));
     }
 
     public function update(Request $request, Laporan $laporan)
     {
+        // dd($request);
         $kcad = User::role('kcad')->first();
         $laporan->tajuk = $request->tajuk;
         $laporan->tarikh = Carbon::parse($request->tarikh)->format('Y-m-d');
         $laporan->tahun = $request->tahun;
-        $laporan->auditor = Auth::user()->id;
+        // $laporan->auditor = Auth::user()->id;
         //$laporan->kcad = $kcad->id;
         $laporan->status = 'auditor';
         $laporan->organisasi_id = $request->organisasi_id;
@@ -172,25 +175,29 @@ class LaporanController extends Controller
             $laporan->kategori_id = $request->kategori;
         }
         $laporan->save();
-
-
-
-        foreach ($request->jawatankuasa as $key => $value) {
-            $jawatankuasa  = new Jawatankuasa();
-            $jawatankuasa->laporan_id = $laporan->id;
-            $jawatankuasa->user_id = $value;
-            if($value==$kcad->id ){
-                $jawatankuasa->posisi = 'kcad';
-            }else{
-                $jawatankuasa->posisi = 'auditor';
+        if( $laporan->status !='jawatankuasa'){
+            foreach($laporan->jawatankuasa as $jawatankuasa){
+                $jawatankuasa->delete();
             }
-            $jawatankuasa->save();
+            foreach ($request->jawatankuasa as $key => $value) {
+                $jawatankuasa  = new Jawatankuasa();
+                $jawatankuasa->laporan_id = $laporan->id;
+                $jawatankuasa->user_id = $value;
+                if($value==$kcad->id ){
+                    $jawatankuasa->posisi = 'kcad';
+                }else{
+                    $jawatankuasa->posisi = 'auditor';
+                }
+                $jawatankuasa->save();
+            }
         }
-
 
 
         $laporan->fill($request->except('attachment'));
         if($file = $request->hasFile('attachment')){
+            // foreach($laporan -> attachment){
+                $laporan -> attachment ->delete();
+            // }
             $file = $request->file('attachment') ;
             $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $fileName = time().'_'.$file->getClientOriginalName();
@@ -245,5 +252,5 @@ class LaporanController extends Controller
         return $org_opts;
     }
 
-    
+
 }

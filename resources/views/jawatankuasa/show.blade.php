@@ -95,24 +95,28 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @if ($auditipenemuan->progress_id != '10')
+
+
                             {!! Form::hidden('maklumbalas_id', $maklumbalas->id, ['id'=>'maklumbalas_id']) !!}
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                                     {!! Form::label('status', 'Status') !!}
-                                    {!! Form::select('status', $statusOpt, null, ['id' => 'status', 'class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::select('status', $statusOpt, $auditipenemuan->progress_id, ['id' => 'status', 'class' => 'form-control', 'required' => 'required']) !!}
                                     <small class="text-danger">{{ $errors->first('status') }}</small>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('ulasan') ? ' has-error' : '' }}">
                                     {!! Form::label('ulasan', 'Ulasan') !!}
-                                    {!! Form::textarea('ulasan', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::textarea('ulasan', $ulasan->ulasan, ['class' => 'form-control', 'required' => 'required']) !!}
                                     <small class="text-danger">{{ $errors->first('ulasan') }}</small>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary pull-right">Simpan</button>
                             </div>
+                            @endif
                         </div>
                     </div>
                     {!! Form::close() !!}

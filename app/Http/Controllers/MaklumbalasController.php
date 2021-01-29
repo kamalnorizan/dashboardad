@@ -58,7 +58,10 @@ class MaklumbalasController extends Controller
             }elseif($maklumbalasterkini->ulasan!=''){
                 $maklumbalasterkini = '';
                 $createmaklumbalas = true;
-            }else{
+            }elseif($maklumbalasterkini->ulasan==''){
+                $createmaklumbalas = true;
+            }
+            else{
                 $createmaklumbalas = false;
             }
         }

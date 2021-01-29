@@ -27,11 +27,17 @@
                             <td>Status</td>
                             <td>Tindakan</td>
                         </tr>
+                        @php
+                            $i=1;
+                        @endphp
                         @foreach ($jawatankuasa as $key=>$ajk)
                             @if($ajk->laporan->auditipenemuan->where('status_hantar','auditi')->count() == 0)
                                 <tr>
                                     <td>
-                                        {{(($jawatankuasa->currentPage()-1)*20)+$key+1}}
+                                        {{(($jawatankuasa->currentPage()-1)*20)+$i}}
+                                        @php
+                                            $i++;
+                                        @endphp
                                     </td>
                                     <td>
                                         {{$ajk->laporan->tajuk}}

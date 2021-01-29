@@ -79,7 +79,8 @@ class JawatankuasaController extends Controller
     public function show(Auditipenemuan $auditipenemuan)
     {
         $statusOpt = Progress::whereIn('id',['7','9','10'])->pluck('name','id');
-        return view('jawatankuasa.show',compact('auditipenemuan','statusOpt'));
+        $ulasan = $auditipenemuan->maklumbalas->sortByDesc('id')->first();
+        return view('jawatankuasa.show',compact('auditipenemuan','statusOpt','ulasan'));
     }
 
     /**

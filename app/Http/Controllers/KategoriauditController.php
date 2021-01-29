@@ -14,7 +14,9 @@ class KategoriauditController extends Controller
      */
     public function index()
     {
-        //
+        $kategori = Kategoriaudit::with('subkategoriad','parentkategori')->whereNull('subkategori')->paginate(15);
+        return view('kategori.index',compact('kategori'));
+
     }
 
     /**
@@ -24,7 +26,11 @@ class KategoriauditController extends Controller
      */
     public function create()
     {
-        //
+        $kategori = Kategoriaudit::with('parentkategori')->paginate(15);
+        $parentCatOpts = $kategori->where('subkategori','')->pluck('name','id');
+        $parentCatOpts['main']='Main';
+        $parentCatOpts['']='Sila pilih parent kategori';
+        return view('kategori.create',compact('kategori','parentCatOpts'));
     }
 
     /**
@@ -35,7 +41,20 @@ class KategoriauditController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kategori = new Kategoriaudit;
+        $kategori->name = $request->name;
+
+        if($request->subkategori=='main'){
+            $subkategori=NULL;
+        }else{
+            $subkategori=$request->subkategori;
+        }
+
+        $kategori->subkategori = $subkategori;
+        $kategori->save();
+
+        flash('Kategori telah berjaya ditambah')->success()->important();
+        return redirect('kategori');
     }
 
     /**
@@ -57,7 +76,15 @@ class KategoriauditController extends Controller
      */
     public function edit(Kategoriaudit $kategoriaudit)
     {
-        //
+        $kategori = $kategoriaudit;
+        $parentCatOpts = $kategori->where('subkategori','')->pluck('name','id');
+        $parentCatOpts['main']='Main';
+        $parentCatOpts['']='Sila pilih parent kategori';
+        if($kategori->subkategori==''){
+            $kategori->subkategori='main';
+        }
+        // dd($kategori);
+        return view('kategori.edit',compact('kategori','parentCatOpts'));
     }
 
     /**
@@ -67,9 +94,21 @@ class KategoriauditController extends Controller
      * @param  \App\Kategoriaudit  $kategoriaudit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategoriaudit $kategoriaudit)
+    public function update(Request $request)
     {
-        //
+        $kategoriaudit = Kategoriaudit::find($request->kategori_id);
+        $kategoriaudit->name = $request->name;
+
+        if($request->subkategori=='main'){
+            $subkategori=NULL;
+        }else{
+            $subkategori=$request->subkategori;
+        }
+
+        $kategoriaudit->subkategori = $subkategori;
+        $kategoriaudit->save();
+        flash('Kategori telah dikemaskini')->success()->important();
+        return redirect('/kategori');
     }
 
     /**

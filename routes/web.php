@@ -58,9 +58,12 @@ Route::get('/permission/resetrolepermissions/{role}', 'PermissionController@rese
 Route::post('/permission/assignrole', 'PermissionController@assignrole')->name('user.assignrole');
 
 //Kategori Audit
-Route::resource('kategori', 'KategoriauditController')->middleware('auth');
+Route::get('/kategori', 'KategoriauditController@index')->name('kategoriaudit.index');
 Route::post('/kategori', 'KategoriauditController@store')->name('kategoriaudit.store');
-Route::get('/kategori/getSubkategori/{kategori}', 'KategoriController@getSubkategori')->name('kategori.getSubkategori');
+Route::post('/kategori/update', 'KategoriauditController@update')->name('kategori.update');
+Route::get('/kategori/getSubkategori/{kategori}', 'KategoriauditController@getSubkategori')->name('kategori.getSubkategori');
+Route::get('/kategori/{kategoriaudit}/edit', 'KategoriauditController@edit')->name('kategoriaudit.edit');
+Route::resource('kategori', 'KategoriauditController')->middleware('auth')->except('update','edit');
 
 // laporan
 Route::post('/laporan/auditorhantarlaporan', 'LaporanController@auditorhantarlaporan')->name('laporan.auditorhantarlaporan');
