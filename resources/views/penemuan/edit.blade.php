@@ -4,8 +4,8 @@
 
 @section('head')
 
-<link href="{{ asset('res/css/plugins/summernote/summernote.min.css') }}" rel="stylesheet">
-<link href="{{ asset('res/css/plugins/select2/select2.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/res/css/plugins/summernote/summernote.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/res/css/plugins/select2/select2.min.css') }}" rel="stylesheet">
 <style>
     .note-editor {
         height: auto !important;
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('penemuan') ? ' has-error' : '' }}">
-                        {!! Form::textarea('penemuan', $penemuan->penemuan ?? '', ['class' => 'form-control summernote', 'required' => 'required', 'rows'=>'1']) !!}
+                        {!! Form::textarea('penemuan', $penemuan->penemuan , ['class' => 'form-control summernote', 'required' => 'required', 'rows'=>'1']) !!}
                         <small class="text-danger">{{ $errors->first('penemuan') }}</small>
                     </div>
 
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-block btn-danger removeBtn" type="button"><i class="fa fa-times"></i></button>
+                                <button class="btn btn-block btn-danger removeBtn" type="button"><i class="fa fa-times"></i>Padam</button>
                             </div>
                         </div>
                         @endforeach
@@ -194,7 +194,7 @@
                 type: "get",
                 url: "/penemuan/getorganisasi",
                 success: function (response) {
-                    $('#tambahorg').append('<div class="row"><div class="col-md-5"><div class="form-group"><select id="organisasi_id" class="form-control select2 org_id" required="required" name="organisasi_id[]">'+response+'</select></div></div><div class="col-md-5"><div class="form-group"><select id="auditi" class="form-control auditi" required="required" name="auditi[]"></select></div></div><div class="col-md-2"><button class="btn btn-block btn-danger" type="button" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"></i></button></div></div></div>');
+                    $('#tambahorg').append('<div class="row"><div class="col-md-5"><div class="form-group"><select id="organisasi_id" class="form-control select2 org_id" required="required" name="organisasi_id[]">'+response+'</select></div></div><div class="col-md-5"><div class="form-group"><select id="auditi" class="form-control auditi" required="required" name="auditi[]"></select></div></div><div class="col-md-2"><button class="btn btn-block btn-danger" type="button" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"></i>Padam</button></div></div></div>');
                     $(".select2").select2();
                     $('.org_id').on('select2:select', function (e) {
                         var pegawai = $(this).closest('.row').find('.auditi');

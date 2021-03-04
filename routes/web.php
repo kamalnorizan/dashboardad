@@ -17,27 +17,40 @@ use Illuminate\Support\Facades\Route;
 //     dump($event->sql);
 // });
 
-Route::get('/', function () {
+//Frontpage - Dashboard
+Route::get('/', 'DashboardController@index')->name('Dashboard.index');
+Route::get('/ajaxbytahun/{year}', 'DashboardController@ajaxReportByYear')->name('Dashboard.ajaxReportByYear');
+Route::get('/detaillaporan/{laporan}/{progress_id}', 'DashboardController@detaillaporan')->name('Dashboard.ajaxReportByYear');
+
+//Login
+Route::get('/login', function () {
     return redirect('/login');
 });
 
 Auth::routes(['register'=>false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/getTotalLaporan', 'HomeController@getTotalLaporan')->name('home.get-total-laporan');
+Route::get('/getTotalPenemuan7', 'HomeController@getTotalPenemuan7')->name('home.get-total-penemuan7');
+Route::get('/getTotalPenemuan9', 'HomeController@getTotalPenemuan9')->name('home.get-total-penemuan9');
+Route::get('/getTotalPenemuan10', 'HomeController@getTotalPenemuan10')->name('home.get-total-penemuan10');
+
+
 
 // User
+
 Route::get('user/getOrg/{id}', 'UserController@getOrg');
 Route::get('user/getOrg/{id}/{negeri}', 'UserController@getOrgNegeri');
-Route::get('/user/edit/{id}', 'UserController@edit')->name('user.edit');
-Route::put('/user/edit/{id}', 'UserController@update')->name('user.update');
+Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit');
+Route::put('/user/{user}', 'UserController@update')->name('user.update');
 Route::get('/user/revokeuserrole/{role}/{user}', 'UserController@revokeuserrole')->name('user.revokeuserrole');
-Route::resource('user', 'UserController')->middleware(['auth','permission: show user|edit user']);
+Route::resource('user', 'UserController')->middleware(['auth','permission: show user|create laporan|create maklumbalas']);
 //Profile
 Route::get('/user/profile/{id}', 'UserController@profile')->name('user.profile');
 Route::get('/user/profile/profile', 'UserController@editprofile')->name('profile.index.editprofile');
 Route::put('/user/profile/{id}', 'UserController@updateprofile')->name('user.updateprofile');
-Route::get('/user/{user}/edit', 'UserController@editPassword')->name('profile.katalaluan.editPassword');
-Route::put('/user/{user}', 'UserController@Updatepassword')->name('profile.katalaluan.Updatepassword');
+//Route::get('/user/{user}/editPassword', 'UserController@editPassword')->name('profile.katalaluan.editPassword');
+//Route::put('/user/{user}', 'UserController@Updatepassword')->name('profile.katalaluan.Updatepassword');
 
 
 // Organisasi
@@ -63,9 +76,12 @@ Route::post('/kategori', 'KategoriauditController@store')->name('kategoriaudit.s
 Route::post('/kategori/update', 'KategoriauditController@update')->name('kategori.update');
 Route::get('/kategori/getSubkategori/{kategori}', 'KategoriauditController@getSubkategori')->name('kategori.getSubkategori');
 Route::get('/kategori/{kategoriaudit}/edit', 'KategoriauditController@edit')->name('kategoriaudit.edit');
-Route::resource('kategori', 'KategoriauditController')->middleware('auth')->except('update','edit');
+Route::resource('kategori', 'KategoriauditController')->middleware('auth')->except('update','edit','store');
+
+
 
 // laporan
+
 Route::post('/laporan/auditorhantarlaporan', 'LaporanController@auditorhantarlaporan')->name('laporan.auditorhantarlaporan');
 Route::get('/laporan/getSubkategori/{kategori}', 'LaporanController@getSubkategori')->name('laporan.getSubkategori');
 Route::get('/laporan/getJawatankuasa', 'LaporanController@getJawatankuasa')->name('laporan.getJawatankuasa');
@@ -76,6 +92,7 @@ Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create'
 Route::post('/laporan', 'LaporanController@store')->name('laporan.store');
 Route::get('/laporan/{laporan}/edit', 'LaporanController@edit')->name('laporan.edit');
 Route::put('/laporan/{laporan}', 'LaporanController@update')->name('laporan.update');
+Route::get('/laporan/{laporan}/show', 'LaporanController@show')->name('laporan.show');
 
 
 //penemuan
@@ -85,7 +102,7 @@ Route::post('/penemuan', 'PenemuanController@store')->name('penemuan.store');
 Route::get('/penemuan/getorganisasi', 'PenemuanController@getorganisasi')->name('penemuan.getorganisasi');
 Route::get('/penemuan/{penemuan}/edit', 'PenemuanController@edit')->name('penemuan.edit');
 Route::put('/penemuan/{penemuan}', 'PenemuanController@update')->name('penemuan.update');
-Route::get('/penemuan/{penemuan}', 'PenemuanController@show')->name('penemuan.show');
+Route::get('/penemuan/{penemuan}/show', 'PenemuanController@show')->name('penemuan.show');
 Route::get('/penemuan/{penemuan}/delete', 'PenemuanController@destroy')->name('penemuan.destroy');
 Route::get('/penemuan/getpegawai/{organisasi}', 'PenemuanController@getpegawai')->name('penemuan.getpegawai');
 // Route::get('summernote-image-upload','PenemuanController@index')->name('penemuan.index');
@@ -113,4 +130,13 @@ Route::get('/maklumbalas/create/{laporan}', 'MaklumbalasController@create')->nam
 Route::get('/maklumbalas/{auditipenemuan}/edit', 'MaklumbalasController@edit')->name('maklumbalas.edit');
 Route::post('/maklumbalas', 'MaklumbalasController@store')->name('maklumbalas.store');
 Route::post('/maklumbalas/auditihantarjawatankuasa', 'MaklumbalasController@auditihantarjawatankuasa')->name('maklumbalas.auditihantarjawatankuasa');
+
+//Route::get('/maklumbalas/downloadattachment', 'MaklumbalasController@downloadattachment')->name//('maklumbalas.downloadattachment');
+
+//attachment
 Route::get('attachment/getFile/{attachment}', 'AttachmentController@getFile')->name('attachment.getfile');
+
+
+//statistik
+Route::resource('statistik', 'StatistikController')->middleware('auth');
+Route::get('/statistik/create/{laporan}', 'StatistikController@create')->name('statistik.create');
